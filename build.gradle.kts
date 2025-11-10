@@ -1,0 +1,46 @@
+plugins {
+    val kotlinVersion: String by System.getProperties()
+    kotlin("plugin.serialization") version kotlinVersion
+    kotlin("multiplatform") version kotlinVersion
+    val kvisionVersion: String by System.getProperties()
+    id("io.kvision") version kvisionVersion
+}
+
+version = "1.0.0"
+group = "apps.chocolatecakecodes.symfonylogviewer"
+
+// Versions
+val kvisionVersion: String by System.getProperties()
+
+kotlin {
+    js(IR) {
+        browser {
+            useEsModules()
+            commonWebpackConfig {
+                outputFileName = "main.bundle.js"
+                sourceMaps = false
+            }
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
+        binaries.executable()
+        compilerOptions {
+            target.set("es2015")
+        }
+    }
+    sourceSets["jsMain"].dependencies {
+        implementation("io.kvision:kvision:$kvisionVersion")
+        implementation("io.kvision:kvision-datetime:$kvisionVersion")
+        implementation("io.kvision:kvision-tabulator:$kvisionVersion")
+        implementation("io.kvision:kvision-state:$kvisionVersion")
+        implementation("io.kvision:kvision-state-flow:$kvisionVersion")
+        implementation("io.kvision:kvision-tailwindcss:$kvisionVersion")
+    }
+    sourceSets["jsTest"].dependencies {
+        implementation(kotlin("test-js"))
+        implementation("io.kvision:kvision-testutils:$kvisionVersion")
+    }
+}

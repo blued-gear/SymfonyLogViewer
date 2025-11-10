@@ -1,0 +1,8 @@
+.*/
+build/
+out/
+.kotlin/
+*.imp
+*.ipr
+*.iws
+.idea/
