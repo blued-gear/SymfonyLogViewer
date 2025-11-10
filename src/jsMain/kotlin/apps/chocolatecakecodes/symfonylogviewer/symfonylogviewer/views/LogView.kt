@@ -1,5 +1,6 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views
 
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogParser
 import io.kvision.html.Div
 
 internal class LogView (
@@ -8,6 +9,8 @@ internal class LogView (
 
     init {
         +data
+
+        console.log(LogParser(data).parse())
     }
 
 }
