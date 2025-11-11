@@ -1,6 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views
 
 import io.kvision.core.onChange
+import io.kvision.form.text.text
 import io.kvision.html.Div
 import io.kvision.html.InputType
 import io.kvision.html.div
@@ -12,6 +13,8 @@ internal class StartView(
     private val onNext: (String) -> Unit,
 ) : Div() {
 
+    private val msg: Div
+
     init {
         div {
             + "Select a logfile"
@@ -22,12 +25,23 @@ internal class StartView(
                 onFileSelected(it.target.asDynamic().files[0] as File)
             }
         }
+
+        msg = div {
+            this.addCssClasses("color-red-700")
+        }
     }
 
     private fun onFileSelected(file: File) {
+        msg.removeAll()
+
         val reader = FileReader()
         reader.onload = {
             onNext(reader.result)
+        }
+        reader.onerror = {
+            console.error(reader.error)
+
+            msg.text { +"unable to load file" }
         }
         reader.readAsText(file)
     }
