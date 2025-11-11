@@ -2,13 +2,8 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogParser
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.HttpExceptionLine
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.LogLine
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.MessangerExceptionLine
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.UnknownLine
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.httpExceptionLineView
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.messangerExceptionLineView
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.unknownLineView
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.*
 import io.kvision.core.Container
 import io.kvision.form.select.select
 import io.kvision.html.Div
@@ -94,6 +89,9 @@ internal class LogView (
                     when(line) {
                         is HttpExceptionLine -> this.add(httpExceptionLineView(line))
                         is MessangerExceptionLine -> this.add(messangerExceptionLineView(line))
+                        is ActivityHandlerLine -> this.add(activityHandlerLineView(line))
+                        is ActivityPubManagerLine -> this.add(activityPubManagerLineView(line))
+                        is DownloadErrorLine -> this.add(downloadErrorLineView(line))
                         is UnknownLine -> this.add(unknownLineView(line))
                     }
                 }

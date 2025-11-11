@@ -1,7 +1,6 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
-import kotlinx.coroutines.yield
 import kotlinx.serialization.json.*
 import kotlin.js.Date
 
@@ -14,7 +13,7 @@ internal class LogParser(
         val INVALID_DATE = Date(0)
     }
 
-    suspend fun processA0Lines(): List<LogLine> {
+     fun processA0Lines(): List<LogLine> {
         var strIdx = 0
         var lineEndIdx = -1
         var line: String
@@ -30,6 +29,9 @@ internal class LogParser(
                 json = Json.parseToJsonElement(line)
                 val parsed: LogLine = tryParseHttpException(json, line)
                     ?: tryParseMessangerException(json, line)
+                    ?: tryParseActivityHandlerLine(json, line)
+                    ?: tryParseActivityPubManagerLine(json, line)
+                    ?: tryParseDownloadErrorLine(json, line)
                     ?: tryParseUnknownLine(json, line)?.also { console.warn("encountered unknown line at line $lineNum") }
                     ?: fallbackLine(line).also { console.warn("encountered unparseable line at line $lineNum") }
                 ret.add(parsed)
@@ -42,8 +44,8 @@ internal class LogParser(
             lineNum++
 
             // prevent blocking of the UI
-            if(lineNum / 200 == 1)
-                yield()
+//            if(lineNum / 200 == 1)
+//                yield()
         }
 
         return ret
@@ -67,8 +69,12 @@ internal class LogParser(
         val httpReqStatus = ctx.getAsString("msg")?.let {
             val promotor = ", status code: "
             val promotorIdx = it.indexOf(promotor) + promotor.length
-            val terminatorIdx = it.indexOf(",", promotorIdx)
-            return@let it.substring(promotorIdx, terminatorIdx).toIntOrNull()
+            if(promotorIdx != promotor.length - 1) {
+                val terminatorIdx = it.indexOf(",", promotorIdx)
+                return@let it.substring(promotorIdx, terminatorIdx).toIntOrNull()
+            } else {
+                return@let 0
+            }
         } ?: return null
         val ctxMessage = ctx.getAsString("msg") ?: return null
 
@@ -119,6 +125,69 @@ internal class LogParser(
             retryCount,
             file,
             prevErrHash,
+        )
+    }
+
+    private fun tryParseActivityPubManagerLine(json: JsonElement, line: String): ActivityPubManagerLine? {
+        val basics = parseBasics(json) ?: return null
+        json as JsonObject
+
+        val ctx = json.getAsObj("context") ?: return null
+
+        val message = json.getAsString("message") ?: return null
+        val activityId = ctx.getAsString("id") ?: return null
+        val activityActor = ctx.getAsString("actor") ?: return null
+        val activityObject = ctx.getAsString("object") ?: return null
+        val activityType = ctx.getAsString("type") ?: return null
+        val activityAudience = ctx.getAsString("audience") ?: return null
+
+        return ActivityPubManagerLine(
+            line,
+            basics.date,
+            basics.level,
+            basics.channel,
+            message,
+            activityId,
+            activityActor,
+            activityObject,
+            activityType,
+            activityAudience,
+        )
+    }
+
+    private fun tryParseActivityHandlerLine(json: JsonElement, line: String): ActivityHandlerLine? {
+        val basics = parseBasics(json) ?: return null
+        json as JsonObject
+
+        val ctx = json.getAsObj("context") ?: return null
+        val message = json.getAsString("message") ?: return null
+
+        return ActivityHandlerLine(
+            line,
+            basics.date,
+            basics.level,
+            basics.channel,
+            message,
+            ctx
+        )
+    }
+
+    private fun tryParseDownloadErrorLine(json: JsonElement, line: String): DownloadErrorLine? {
+        val basics = parseBasics(json) ?: return null
+        json as JsonObject
+
+        val ctx = json.getAsObj("context") ?: return null
+        val message = json.getAsString("message") ?: return null
+        if(!message.startsWith("couldn't download file")) return null
+        val url = ctx.getAsString("url") ?: return null
+
+        return DownloadErrorLine(
+            line,
+            basics.date,
+            basics.level,
+            basics.channel,
+            message,
+            url,
         )
     }
 

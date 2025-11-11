@@ -1,32 +1,24 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
+import kotlinx.serialization.json.JsonObject
 import kotlin.js.Date
 
-internal data class MessangerExceptionLine(
+internal data class ActivityHandlerLine(
     override val rawLine: String,
     override val time: Date,
     override val level: Level,
     val channel: String,
     val message: String,
-    val errorMessage: String,
-    val exceptionType: String,
-    val messageType: String,
-    val messageId: String,
-    val retryCount: Int,
-    val file: String,
-    val prevErrHash: Int,
+    val context: JsonObject,
 ) : LogLine {
 
     override val refHash: Int = -1
-    override val references: Int = prevErrHash
-
+    override val references: Int? = null
     override val groups: List<Pair<LogMessageGroup, String>> = listOf(
         Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
+        Pair(LogMessageGroup.FILE, "ActivityHandler"),
         Pair(LogMessageGroup.LEVEL, level.name),
         Pair(LogMessageGroup.CHANNEL, channel),
-        Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
-        Pair(LogMessageGroup.MESSAGE_TYPE, messageType),
-        Pair(LogMessageGroup.FILE, file),
     )
 }

@@ -27,6 +27,7 @@ internal data class HttpExceptionLine(
 
     init {
         val groups = mutableListOf(
+            Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
             Pair(LogMessageGroup.LEVEL, level.name),
             Pair(LogMessageGroup.CHANNEL, channel),
             Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),

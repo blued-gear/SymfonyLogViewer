@@ -10,8 +10,10 @@ import io.kvision.html.div
 import kotlinx.serialization.json.Json
 
 internal fun Div.addBasicContent(line: LogLine) {
+    this.addCssClasses("p-2")
+
     val rawLine = div {
-        this.addCssClasses("overflow-hidden", "whitespace-pre", "mt-4")
+        this.addCssClasses("whitespace-pre", "mt-4", "overflow-x-auto", "pb-3")
         this.setStyle("display", "none")
 
         try {

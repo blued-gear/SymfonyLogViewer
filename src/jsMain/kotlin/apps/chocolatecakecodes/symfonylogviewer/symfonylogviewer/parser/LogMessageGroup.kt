@@ -2,6 +2,7 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser
 
 internal enum class LogMessageGroup {
 
+    TYPE,
     LEVEL,
     CHANNEL,
     FILE,
