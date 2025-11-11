@@ -64,13 +64,15 @@ internal class LogView (
         container.div().apply {
             select {
                 this.addCssClasses("w-full")
-            }.bind(this@LogView.currentGroup) {
-                if(it == "") {
+            }.bind(this@LogView.currentGroup) { group ->
+                if(group == "") {
                     this.options = emptyList()
                     this@LogView.currentValue.value = ""
                 } else {
-                    this.options = this@LogView.groups.value.get(LogMessageGroup.valueOf(it))!!.map {
-                        Pair(it, it)
+                    val grp = LogMessageGroup.valueOf(group)
+                    this.options = this@LogView.groups.value.get(grp)!!.map {
+                        val lineCount = this@LogView.groupIndexedLines[Pair(grp, it)]!!.size
+                        Pair(it, "$it ($lineCount)")
                     }
                     this@LogView.currentValue.value = this.options!!.first().first
                 }
