@@ -16,6 +16,8 @@ internal class StartView(
     private val msg: Div
 
     init {
+        this.addCssClasses("m-6")
+
         div {
             + "Select a logfile"
         }
@@ -33,6 +35,7 @@ internal class StartView(
 
     private fun onFileSelected(file: File) {
         msg.removeAll()
+        msg.text { +"loading file..." }
 
         val reader = FileReader()
         reader.onload = {
@@ -40,7 +43,6 @@ internal class StartView(
         }
         reader.onerror = {
             console.error(reader.error)
-
             msg.text { +"unable to load file" }
         }
         reader.readAsText(file)

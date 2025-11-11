@@ -1,6 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
+import kotlinx.coroutines.yield
 import kotlinx.serialization.json.*
 import kotlin.js.Date
 
@@ -13,7 +14,7 @@ internal class LogParser(
         val INVALID_DATE = Date(0)
     }
 
-     fun processA0Lines(): List<LogLine> {
+    suspend fun processLines(): List<LogLine> {
         var strIdx = 0
         var lineEndIdx = -1
         var line: String
@@ -44,8 +45,8 @@ internal class LogParser(
             lineNum++
 
             // prevent blocking of the UI
-//            if(lineNum / 200 == 1)
-//                yield()
+            if(lineNum / 200 == 1)
+                yield()
         }
 
         return ret

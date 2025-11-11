@@ -50,8 +50,9 @@ internal class LogView (
 
     private fun searchBar(container: Container) {
         container.div().apply {
+            +"Filter attribute: "
             select {
-                this.addCssClasses("w-full")
+                this.addCssClasses("filterSelect")
 
                 this.subscribe {
                     this@LogView.currentGroup.value = it ?: ""
@@ -62,8 +63,9 @@ internal class LogView (
         }
 
         container.div().apply {
+            +"Attribute value: "
             select {
-                this.addCssClasses("w-full")
+                this.addCssClasses("filterSelect")
             }.bind(this@LogView.currentGroup) { group ->
                 if(group == "") {
                     this.options = emptyList()
@@ -103,7 +105,7 @@ internal class LogView (
 
     private suspend fun loadLines() {
         val parser = LogParser(data)
-        allLines = parser.processA0Lines()
+        allLines = parser.processLines()
 
         val groupIndex = mutableMapOf<Pair<LogMessageGroup, String>, MutableList<LogLine>>()
         val groups = mutableMapOf<LogMessageGroup, MutableSet<String>>()

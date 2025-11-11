@@ -2,3 +2,11 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @source inline("bg-neutral-500 text-white font-bold inline-block rounded-full");
+
+.filterSelect {
+    width: 52rem;
+}
+
+.filterSelect select {
+    width: 100%;
+}
