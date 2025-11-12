@@ -34,7 +34,6 @@ kotlin {
     sourceSets["jsMain"].dependencies {
         implementation("io.kvision:kvision:$kvisionVersion")
         implementation("io.kvision:kvision-datetime:$kvisionVersion")
-        implementation("io.kvision:kvision-tabulator:$kvisionVersion")
         implementation("io.kvision:kvision-state:$kvisionVersion")
         implementation("io.kvision:kvision-state-flow:$kvisionVersion")
         implementation("io.kvision:kvision-tailwindcss:$kvisionVersion")

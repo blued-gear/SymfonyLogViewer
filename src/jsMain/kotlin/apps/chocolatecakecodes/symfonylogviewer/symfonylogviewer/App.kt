@@ -35,8 +35,6 @@ fun main() {
         ::App,
         js("import.meta.webpackHot").unsafeCast<Hot?>(),
         DatetimeModule,
-        TabulatorModule,
-        TabulatorCssBootstrapModule,
         TailwindcssModule,
         CoreModule
     )
