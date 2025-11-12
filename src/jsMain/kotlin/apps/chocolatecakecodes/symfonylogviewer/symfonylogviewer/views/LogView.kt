@@ -3,6 +3,7 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogParser
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.paginatedList
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.*
 import io.kvision.core.Container
 import io.kvision.form.select.select
@@ -84,20 +85,15 @@ internal class LogView (
 
     private fun listView(container: Container) {
         container.div {
-            this.addCssClasses("p-4", "border-2", "border-solid", "flex", "flex-col", "gap-3")
-        }.bind(filteredLines) {
-            if(it.isEmpty()) {
-                div { +"loading..." }
-            } else {
-                it.forEach { line ->
-                    when(line) {
-                        is HttpExceptionLine -> this.add(httpExceptionLineView(line))
-                        is MessangerExceptionLine -> this.add(messangerExceptionLineView(line))
-                        is ActivityHandlerLine -> this.add(activityHandlerLineView(line))
-                        is ActivityPubManagerLine -> this.add(activityPubManagerLineView(line))
-                        is DownloadErrorLine -> this.add(downloadErrorLineView(line))
-                        is UnknownLine -> this.add(unknownLineView(line))
-                    }
+            this.addCssClasses("p-4", "border-2", "border-solid")
+            this.paginatedList(this@LogView.filteredLines) { line ->
+                when(line) {
+                    is HttpExceptionLine -> httpExceptionLineView(line)
+                    is MessangerExceptionLine -> messangerExceptionLineView(line)
+                    is ActivityHandlerLine -> activityHandlerLineView(line)
+                    is ActivityPubManagerLine -> activityPubManagerLineView(line)
+                    is DownloadErrorLine -> downloadErrorLineView(line)
+                    is UnknownLine -> unknownLineView(line)
                 }
             }
         }
