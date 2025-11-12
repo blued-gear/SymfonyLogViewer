@@ -79,12 +79,13 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
                 div {
                     this.addCssClasses("w-max", "whitespace-pre")
 
-                    this.setStyle("max-height", "8rem")
+                    val collapsedHeight = "5rem"
+                    this.setStyle("max-height", collapsedHeight)
                     var expanded = false
                     this.onClick {
                         it.stopPropagation()
                         expanded = !expanded
-                        this.setStyle("max-height", if(expanded) "" else "8rem")
+                        this.setStyle("max-height", if(expanded) "" else collapsedHeight)
                     }
 
                     try {

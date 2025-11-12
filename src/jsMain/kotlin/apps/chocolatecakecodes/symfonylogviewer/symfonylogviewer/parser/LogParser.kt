@@ -26,19 +26,21 @@ internal class LogParser(
             lineEndIdx = log.indexOf('\n', strIdx)
             line = log.substring(strIdx, lineEndIdx)
 
-            try {
-                json = Json.parseToJsonElement(line)
-                val parsed: LogLine = tryParseHttpException(json, line)
-                    ?: tryParseMessangerException(json, line)
-                    ?: tryParseActivityHandlerLine(json, line)
-                    ?: tryParseActivityPubManagerLine(json, line)
-                    ?: tryParseDownloadErrorLine(json, line)
-                    ?: tryParseUnknownLine(json, line)?.also { console.warn("encountered unknown line at line $lineNum") }
-                    ?: fallbackLine(line).also { console.warn("encountered unparseable line at line $lineNum") }
-                ret.add(parsed)
-            } catch(e: Throwable) {
-                console.warn("unable to parse line $lineNum", e)
-                ret.add(fallbackLine(line))
+            if(line.startsWith('{')) {
+                try {
+                    json = Json.parseToJsonElement(line)
+                    val parsed: LogLine = tryParseHttpException(json, line)
+                        ?: tryParseMessangerException(json, line)
+                        ?: tryParseActivityHandlerLine(json, line)
+                        ?: tryParseActivityPubManagerLine(json, line)
+                        ?: tryParseDownloadErrorLine(json, line)
+                        ?: tryParseUnknownLine(json, line)?.also { console.warn("encountered unknown line at line $lineNum") }
+                        ?: fallbackLine(line).also { console.warn("encountered unparseable line at line $lineNum") }
+                    ret.add(parsed)
+                } catch(e: Throwable) {
+                    console.warn("unable to parse line $lineNum", e)
+                    ret.add(fallbackLine(line))
+                }
             }
 
             strIdx = lineEndIdx + 1
@@ -65,7 +67,11 @@ internal class LogParser(
             return@let it.substring(sepIdx + 1)
         } ?: return null
         val httpAddr = ctx.getAsString("address") ?: return null
-        val httpReqBody = ctx.getAsString("body") ?: return null
+        val httpReqBody = ctx.getAsString("msg")?.let {
+            val startIdx = it.indexOf('{')
+            val endIdx = it.lastIndexOf('}')
+            return@let it.substring(startIdx, endIdx + 1)
+        } ?: return null
         val httpRespBody = ctx.getAsString("content") ?: return null
         val httpReqStatus = ctx.getAsString("msg")?.let {
             val promotor = ", status code: "
