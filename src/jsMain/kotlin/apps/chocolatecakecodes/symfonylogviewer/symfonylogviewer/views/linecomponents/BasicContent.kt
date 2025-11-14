@@ -3,6 +3,8 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomp
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.Level
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.LogLine
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.addCssClasses
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.copyButton
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.expander
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.prettyJson
 import io.kvision.core.onClick
 import io.kvision.html.Div
@@ -12,21 +14,24 @@ import kotlinx.serialization.json.Json
 internal fun Div.addBasicContent(line: LogLine) {
     this.addCssClasses("p-2")
 
-    val rawLine = div {
-        this.addCssClasses("whitespace-pre", "mt-4", "overflow-x-auto", "pb-3")
-        this.setStyle("display", "none")
+    expander("0px") {
+        this.addCssClasses("mt-4", "pb-3")
 
-        try {
-            +prettyJson.encodeToString(Json.parseToJsonElement(line.rawLine))
+        val text = try {
+            prettyJson.encodeToString(Json.parseToJsonElement(line.rawLine))
         } catch(_: Throwable) {
-            +line.rawLine
+            line.rawLine
         }
-    }
 
-    var expanded = false
-    this.onClick {
-        expanded = !expanded
-        rawLine.setStyle("display", if(expanded) "" else "none")
+        copyButton(text)
+        div {
+            this.addCssClasses("whitespace-pre", "overflow-x-auto")
+            +text
+        }
+    }.also { expander ->
+        this.onClick {
+            expander.getElement()?.click()
+        }
     }
 
     when(line.level) {

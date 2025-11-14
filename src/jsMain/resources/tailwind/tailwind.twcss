@@ -10,3 +10,10 @@
 .filterSelect select {
     width: 100%;
 }
+
+.boxedBtn {
+    border: solid 1px;
+    background-color: lightgray;
+    padding: 0.2rem;
+    cursor: pointer
+}

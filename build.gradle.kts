@@ -37,6 +37,8 @@ kotlin {
         implementation("io.kvision:kvision-state:$kvisionVersion")
         implementation("io.kvision:kvision-state-flow:$kvisionVersion")
         implementation("io.kvision:kvision-tailwindcss:$kvisionVersion")
+
+        implementation("org.jetbrains.kotlin-wrappers:kotlin-browser:2025.10.12")
     }
     sourceSets["jsTest"].dependencies {
         implementation(kotlin("test-js"))

@@ -2,8 +2,9 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomp
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.HttpExceptionLine
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.addCssClasses
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.copyButton
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.expander
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.prettyJson
-import io.kvision.core.onClick
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
@@ -76,23 +77,24 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")
-                div {
-                    this.addCssClasses("w-max", "whitespace-pre")
+                expander("5rem") {
+                    this.addCssClasses("w-max")
 
-                    val collapsedHeight = "5rem"
-                    this.setStyle("max-height", collapsedHeight)
-                    var expanded = false
-                    this.onClick {
-                        it.stopPropagation()
-                        expanded = !expanded
-                        this.setStyle("max-height", if(expanded) "" else collapsedHeight)
+                    val text = if(line.httpReqBody.isBlank()) {
+                        "<empty>"
+                    } else {
+                        try {
+                            prettyJson.encodeToString(Json.parseToJsonElement(line.httpReqBody))
+                        } catch(_: Throwable) {
+                            console.warn("could not pretty-print httpReqBody")
+                            line.httpReqBody
+                        }
                     }
 
-                    try {
-                        +prettyJson.encodeToString(Json.parseToJsonElement(line.httpReqBody))
-                    } catch(_: Throwable) {
-                        console.warn("could not pretty-print httpReqBody")
-                        +line.httpReqBody
+                    this.copyButton(text)
+                    div {
+                        this.addCssClasses("w-max", "whitespace-pre")
+                        +text
                     }
                 }
             }
