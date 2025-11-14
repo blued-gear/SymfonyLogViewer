@@ -1,7 +1,12 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
-import kotlinx.serialization.json.*
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsInt
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import kotlin.js.Date
 
 internal class LogParser(
@@ -229,34 +234,6 @@ internal class LogParser(
         val channel = json.getAsString("channel") ?: return null
 
         return Basics(level, date, channel)
-    }
-
-    private fun JsonObject.getOrNull(key: String): JsonElement? {
-        return this.getOrElse(key, { null })
-    }
-
-    private fun JsonObject.getAsString(key: String): String? {
-        return this.getOrNull(key)?.let {
-            if(it is JsonPrimitive && it.isString)
-                it.content
-            else
-                null
-        }
-    }
-
-    private fun JsonObject.getAsInt(key: String): Int? {
-        return this.getOrNull(key)?.let {
-            if(it is JsonPrimitive)
-                it.intOrNull
-            else
-                null
-        }
-    }
-
-    private fun JsonObject.getAsObj(key: String): JsonObject? {
-        return this.getOrNull(key)?.let {
-            it as? JsonObject
-        }
     }
 }
 
