@@ -1,6 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.js.Date
@@ -28,6 +29,7 @@ internal data class ActivityHandlerLine(
 
         extractHttpStatus()?.let { groups.add(Pair(LogMessageGroup.HTTP_RESP_STATUS, it)) }
         extractHttpAddress()?.let { groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it)) }
+        extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
 
         this.groups = groups
     }
@@ -56,5 +58,12 @@ internal data class ActivityHandlerLine(
         }?.let {
             if(it.isString) it.content else null
         }
+    }
+
+    private fun extractActivityObject(): String? {
+        return context.getAsString("o")
+            ?: context.getAsString("url")
+            ?: context.getAsString("address")
+            ?: context.getAsString("parent")
     }
 }
