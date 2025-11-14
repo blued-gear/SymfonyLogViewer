@@ -72,11 +72,7 @@ internal class LogView (
                     this.options = emptyList()
                     this@LogView.currentValue.value = ""
                 } else {
-                    val grp = LogMessageGroup.valueOf(group)
-                    this.options = this@LogView.groups.value.get(grp)!!.map {
-                        val lineCount = this@LogView.groupIndexedLines[Pair(grp, it)]!!.size
-                        Pair(it, "$it ($lineCount)")
-                    }
+                    this.options = this@LogView.attributeFilterValues(group)
                     this@LogView.currentValue.value = this.options!!.first().first
                 }
             }.bindTo(this@LogView.currentValue)
@@ -125,6 +121,18 @@ internal class LogView (
         } else {
             val grp = LogMessageGroup.valueOf(group)
             filteredLines.addAll(groupIndexedLines[Pair(grp, value)]!!)
+        }
+    }
+
+    private fun attributeFilterValues(group: String): List<Pair<String, String>> {
+        val grp = LogMessageGroup.valueOf(group)
+        return groups.value.get(grp)!!.map {
+            val lineCount = this@LogView.groupIndexedLines[Pair(grp, it)]!!.size
+            Pair(lineCount, it)
+        }.sortedByDescending {
+            it.first
+        }.map { (lineCount, value) ->
+            Pair(value, "$value ($lineCount)")
         }
     }
 }
