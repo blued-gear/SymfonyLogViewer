@@ -7,7 +7,7 @@ A web-based interface for viewing, filtering, and analyzing Symfony application 
 - **Log Browsing**: View Symfony logs in a user-friendly web interface
 - **Filtering**: Filter logs by log level, error type, and other criteria for easier debugging
 - **Offline**: The log viewer can be fully used offline, locally within your web browser (its just HTML, JS and CSS)
-- **Conveniance**: No need to manually go throw the log lines in a file editor or in the terminal
+- **Conveniance**: No need to manually go through the log lines in a file editor or in the terminal
 
 _TODOs:_
 
