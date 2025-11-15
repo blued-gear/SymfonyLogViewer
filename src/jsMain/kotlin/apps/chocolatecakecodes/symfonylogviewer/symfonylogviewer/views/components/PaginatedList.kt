@@ -53,7 +53,7 @@ internal class PaginatedList <T> (
             }
 
             div().bind(this@PaginatedList.page) {
-                +"${it + 1}"
+                +"${it + 1} / ${this@PaginatedList.pages()}"
             }
 
             button(">") {
