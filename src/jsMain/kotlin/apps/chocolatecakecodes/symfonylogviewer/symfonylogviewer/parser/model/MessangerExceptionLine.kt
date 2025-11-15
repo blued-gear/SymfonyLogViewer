@@ -27,6 +27,18 @@ internal data class MessangerExceptionLine(
         Pair(LogMessageGroup.CHANNEL, channel),
         Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
         Pair(LogMessageGroup.MESSAGE_TYPE, messageType),
-        Pair(LogMessageGroup.FILE, file),
+        Pair(LogMessageGroup.FILE, formatFile()),
     )
+
+    private fun formatFile(): String {
+        var prefixPromoter = "/src/"
+        var prefixIdx = file.indexOf(prefixPromoter)
+
+        if(prefixIdx == -1) {
+            prefixPromoter = "/vendor/"
+            prefixIdx = file.indexOf(prefixPromoter)
+        }
+
+        return if(prefixIdx != -1) file.substring(prefixIdx + prefixPromoter.length) else file
+    }
 }

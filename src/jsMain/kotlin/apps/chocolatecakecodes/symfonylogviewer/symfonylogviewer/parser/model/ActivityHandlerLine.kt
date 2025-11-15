@@ -1,6 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -22,7 +23,7 @@ internal data class ActivityHandlerLine(
     init {
         val groups: MutableList<Pair<LogMessageGroup, String>> = mutableListOf(
             Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
-            Pair(LogMessageGroup.FILE, "ActivityHandler"),
+            Pair(LogMessageGroup.FILE, extractFile()),
             Pair(LogMessageGroup.LEVEL, level.name),
             Pair(LogMessageGroup.CHANNEL, channel),
         )
@@ -32,6 +33,20 @@ internal data class ActivityHandlerLine(
         extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
 
         this.groups = groups
+    }
+
+    private fun extractFile(): String {
+        return context.getAsObj("exception")?.getAsString("file")?.let {
+            var prefixPromoter = "/src/"
+            var prefixIdx = it.indexOf(prefixPromoter)
+
+            if(prefixIdx == -1) {
+                prefixPromoter = "/vendor/"
+                prefixIdx = it.indexOf(prefixPromoter)
+            }
+
+            return@let if(prefixIdx != -1) it.substring(prefixIdx + prefixPromoter.length) else it
+        } ?: "<ActivityHandler>"
     }
 
     private fun extractHttpStatus(): String? {
