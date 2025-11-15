@@ -18,10 +18,7 @@ internal inline fun Container.expander(collapsedHeight: String = "8rem", crossin
             it.stopPropagation()
 
             val selection = window.getSelection()
-            if(selection != null
-                && selection.type == "Range"
-                && this.getElement()!!.contains(selection.anchorNode.asDynamic())
-            ) {
+            if(selection != null && selection.type == "Range") {
                 return@onClick
             }
 
