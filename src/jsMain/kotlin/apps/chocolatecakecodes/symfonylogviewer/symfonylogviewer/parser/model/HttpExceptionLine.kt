@@ -35,6 +35,9 @@ internal data class HttpExceptionLine(
             Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()),
         )
 
+        if(refHash != -1)
+            groups.add(Pair(LogMessageGroup.RELATED, refHash.toString()))
+
         if(httpRespBody.startsWith("{\"error\":\"")) {
             try {
                 val json = Json.parseToJsonElement(httpRespBody)

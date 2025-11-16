@@ -12,5 +12,6 @@ internal enum class LogMessageGroup {
     HTTP_ADDRESS,
     LEMMY_ERROR,
     ACTIVITY_OBJECT,
+    RELATED,
 
 }

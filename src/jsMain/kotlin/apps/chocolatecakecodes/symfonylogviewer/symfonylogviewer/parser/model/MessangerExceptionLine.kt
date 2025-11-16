@@ -21,14 +21,23 @@ internal data class MessangerExceptionLine(
     override val refHash: Int = -1
     override val references: Int = prevErrHash
 
-    override val groups: List<Pair<LogMessageGroup, String>> = listOf(
-        Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
-        Pair(LogMessageGroup.LEVEL, level.name),
-        Pair(LogMessageGroup.CHANNEL, channel),
-        Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
-        Pair(LogMessageGroup.MESSAGE_TYPE, messageType),
-        Pair(LogMessageGroup.FILE, formatFile()),
-    )
+    override val groups: List<Pair<LogMessageGroup, String>>
+
+    init {
+        val groups: MutableList<Pair<LogMessageGroup, String>> = mutableListOf(
+            Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
+            Pair(LogMessageGroup.LEVEL, level.name),
+            Pair(LogMessageGroup.CHANNEL, channel),
+            Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
+            Pair(LogMessageGroup.MESSAGE_TYPE, messageType),
+            Pair(LogMessageGroup.FILE, formatFile()),
+        )
+
+        if(references != -1)
+            groups.add(Pair(LogMessageGroup.RELATED, references.toString()))
+
+        this.groups = groups
+    }
 
     private fun formatFile(): String {
         var prefixPromoter = "/src/"
