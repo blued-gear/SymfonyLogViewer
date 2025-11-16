@@ -1,6 +1,6 @@
 # Symfony Log Viewer
 
-A web-based interface for viewing, filtering, and analyzing Symfony application logs (incl. Messenger logs). This tool provides a convenient way to browse and debug your Symfony application without having to manually parse log files or opening them in an editor.
+A web-based interface for viewing, filtering, and analyzing Symfony application logs (incl. Messenger logs). This tool provides a convenient way to browse and debug the Mbin application without having to manually parse log files or opening them in an editor.
 
 ## Features
 
