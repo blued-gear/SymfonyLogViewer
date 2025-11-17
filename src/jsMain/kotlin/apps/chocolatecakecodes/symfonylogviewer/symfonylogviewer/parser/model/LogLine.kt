@@ -8,11 +8,7 @@ internal sealed interface LogLine {
     val rawLine: String
     val time: Date
     val level: Level
-    val refHash: Int
     val groups: List<Pair<LogMessageGroup, String>>
-
-    val references: Int?
-        get() = null
 
 }
 

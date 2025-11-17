@@ -118,10 +118,9 @@ internal class LogParser(
         val messageId = ctx.getAsString("message_id") ?: "<null>"
         val retryCount = ctx.getAsInt("retryCount") ?: return null
         val file = exception.getAsString("file") ?: return null
-        val prevErrHash = exception.getAsObj("previous")
-            ?.getAsObj("previous")
-            ?.getAsString("message")
-            ?.hashCode() ?: -1
+        val prevErrMsg = exception.getAsObj("previous")?.let {
+            it.getAsObj("previous") ?: it
+        }?.getAsString("message")
 
         return MessangerExceptionLine(
             line,
@@ -135,7 +134,7 @@ internal class LogParser(
             messageId,
             retryCount,
             file,
-            prevErrHash,
+            prevErrMsg,
         )
     }
 

@@ -21,8 +21,6 @@ internal data class HttpExceptionLine(
     val ctxMessage: String,
 ) : LogLine {
 
-    override val refHash: Int = ctxMessage.hashCode()
-
     override val groups: List<Pair<LogMessageGroup, String>>
 
     init {
@@ -35,8 +33,8 @@ internal data class HttpExceptionLine(
             Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()),
         )
 
-        if(refHash != -1)
-            groups.add(Pair(LogMessageGroup.RELATED, refHash.toString()))
+        if(ctxMessage.isNotEmpty())
+            groups.add(Pair(LogMessageGroup.RELATED, ctxMessage))
 
         if(httpRespBody.startsWith("{\"error\":\"")) {
             try {

@@ -16,8 +16,6 @@ internal data class ActivityHandlerLine(
     val context: JsonObject,
 ) : LogLine {
 
-    override val refHash: Int = -1
-    override val references: Int? = null
     override val groups: List<Pair<LogMessageGroup, String>>
 
     init {

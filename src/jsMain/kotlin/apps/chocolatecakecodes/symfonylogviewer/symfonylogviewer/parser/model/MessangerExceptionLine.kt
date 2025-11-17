@@ -15,11 +15,8 @@ internal data class MessangerExceptionLine(
     val messageId: String,
     val retryCount: Int,
     val file: String,
-    val prevErrHash: Int,
+    val prevErrMsg: String?,
 ) : LogLine {
-
-    override val refHash: Int = -1
-    override val references: Int = prevErrHash
 
     override val groups: List<Pair<LogMessageGroup, String>>
 
@@ -33,8 +30,8 @@ internal data class MessangerExceptionLine(
             Pair(LogMessageGroup.FILE, formatFile()),
         )
 
-        if(references != -1)
-            groups.add(Pair(LogMessageGroup.RELATED, references.toString()))
+        if(prevErrMsg != null)
+            groups.add(Pair(LogMessageGroup.RELATED, prevErrMsg))
 
         this.groups = groups
     }

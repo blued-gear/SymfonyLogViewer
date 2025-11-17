@@ -132,7 +132,8 @@ internal class LogView (
         }.sortedByDescending {
             it.first
         }.map { (lineCount, value) ->
-            Pair(value, "$value ($lineCount)")
+            val valueTruncated = if(value.length <= 128) value else value.substring(0, 128)
+            Pair(value, "$valueTruncated ($lineCount)")
         }
     }
 }
