@@ -12,8 +12,6 @@ internal data class DownloadErrorLine(
     val url: String,
 ) : LogLine {
 
-    override val refHash: Int = -1
-    override val references: Int? = null
     override val groups: List<Pair<LogMessageGroup, String>> = listOf(
         Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
         Pair(LogMessageGroup.LEVEL, level.name),

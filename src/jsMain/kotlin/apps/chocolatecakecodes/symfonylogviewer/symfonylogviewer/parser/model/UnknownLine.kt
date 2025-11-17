@@ -9,7 +9,5 @@ internal data class UnknownLine(
     override val level: Level,
 ) : LogLine {
 
-    override val refHash: Int = -1
-    override val references: Int? = null
     override val groups: List<Pair<LogMessageGroup, String>> = emptyList()
 }
