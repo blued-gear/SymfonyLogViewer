@@ -13,5 +13,6 @@ internal enum class LogMessageGroup {
     LEMMY_ERROR,
     ACTIVITY_OBJECT,
     RELATED,
+    EXCEPTION_MESSAGE,
 
 }
