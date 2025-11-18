@@ -29,6 +29,7 @@ internal data class ActivityHandlerLine(
         extractHttpStatus()?.let { groups.add(Pair(LogMessageGroup.HTTP_RESP_STATUS, it)) }
         extractHttpAddress()?.let { groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it)) }
         extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
+        extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
 
         this.groups = groups
     }
@@ -78,5 +79,9 @@ internal data class ActivityHandlerLine(
             ?: context.getAsString("url")
             ?: context.getAsString("address")
             ?: context.getAsString("parent")
+    }
+
+    private fun extractExceptionMessage(): String? {
+        return context.getAsObj("exception")?.getAsString("message")
     }
 }

@@ -1,6 +1,9 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
+import kotlinx.serialization.json.JsonObject
 import kotlin.js.Date
 
 internal data class MessangerExceptionLine(
@@ -15,7 +18,7 @@ internal data class MessangerExceptionLine(
     val messageId: String,
     val retryCount: Int,
     val file: String,
-    val prevErrMsg: String?,
+    val context: JsonObject?,
 ) : LogLine {
 
     override val groups: List<Pair<LogMessageGroup, String>>
@@ -30,8 +33,8 @@ internal data class MessangerExceptionLine(
             Pair(LogMessageGroup.FILE, formatFile()),
         )
 
-        if(prevErrMsg != null)
-            groups.add(Pair(LogMessageGroup.RELATED, prevErrMsg))
+        extractPrevErrorMessage()?.let { groups.add(Pair(LogMessageGroup.RELATED, it) )}
+        extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
 
         this.groups = groups
     }
@@ -46,5 +49,15 @@ internal data class MessangerExceptionLine(
         }
 
         return if(prefixIdx != -1) file.substring(prefixIdx + prefixPromoter.length) else file
+    }
+
+    private fun extractPrevErrorMessage(): String? {
+        return context?.getAsObj("exception")?.getAsObj("previous")?.let {
+            it.getAsObj("previous") ?: it
+        }?.getAsString("message")
+    }
+
+    private fun extractExceptionMessage(): String? {
+        return context?.getAsObj("exception")?.getAsString("message")
     }
 }
