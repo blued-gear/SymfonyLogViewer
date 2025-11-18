@@ -50,3 +50,11 @@ For Windows, run:
 ```sh
 gradlew.bat run
 ```
+
+### Gradle Dependencies
+
+If you want to refresh the dependecies, run (which also executes a clean task and update the yarn lock file):
+
+```sh
+./gradlew --refresh-dependencies clean kotlinUpgradeYarnLock build 
+```
