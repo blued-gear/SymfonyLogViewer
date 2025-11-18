@@ -50,3 +50,11 @@ For Windows, run:
 ```sh
 gradlew.bat run
 ```
+
+### Gradle Dependencies
+
+If you want to refresh the dependecies, run:
+
+```sh
+./gradlew --refresh-dependencies clean build 
+```
