@@ -28,6 +28,8 @@ internal class LogParser(
         val ret = mutableListOf<LogLine>()
         while(lineEndIdx < log.lastIndex) {
             lineEndIdx = log.indexOf('\n', strIdx)
+            if(lineEndIdx == -1)
+                lineEndIdx = log.length
             line = log.substring(strIdx, lineEndIdx)
 
             if(line.startsWith('{')) {
