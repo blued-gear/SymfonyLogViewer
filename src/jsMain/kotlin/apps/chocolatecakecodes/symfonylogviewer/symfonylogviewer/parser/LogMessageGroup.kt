@@ -10,6 +10,7 @@ internal enum class LogMessageGroup {
     MESSAGE_TYPE,
     HTTP_RESP_STATUS,
     HTTP_ADDRESS,
+    HTTP_DOMAIN,
     LEMMY_ERROR,
     ACTIVITY_OBJECT,
     RELATED,

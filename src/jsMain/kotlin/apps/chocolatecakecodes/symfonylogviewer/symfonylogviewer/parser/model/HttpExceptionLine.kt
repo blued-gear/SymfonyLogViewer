@@ -1,6 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.domainFromUrl
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -32,6 +33,10 @@ internal data class HttpExceptionLine(
             Pair(LogMessageGroup.HTTP_ADDRESS, httpAddress),
             Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()),
         )
+
+        domainFromUrl(httpAddress)?.let {
+            groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
+        }
 
         if(ctxMessage.isNotEmpty())
             groups.add(Pair(LogMessageGroup.RELATED, ctxMessage))
