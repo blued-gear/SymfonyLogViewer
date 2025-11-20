@@ -78,7 +78,7 @@ internal data class ActivityHandlerLine(
             it as? JsonPrimitive
         }?.let {
             if(it.isString) it.content else null
-        }
+        }?.removePrefix("https://")
     }
 
     private fun extractActivityObject(): String? {
