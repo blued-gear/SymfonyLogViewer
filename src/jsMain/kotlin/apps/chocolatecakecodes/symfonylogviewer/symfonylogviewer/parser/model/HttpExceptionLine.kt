@@ -30,7 +30,7 @@ internal data class HttpExceptionLine(
             Pair(LogMessageGroup.LEVEL, level.name),
             Pair(LogMessageGroup.CHANNEL, channel),
             Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
-            Pair(LogMessageGroup.HTTP_ADDRESS, httpAddress),
+            Pair(LogMessageGroup.HTTP_ADDRESS, httpAddress.removePrefix("https://")),
             Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()),
         )
 
