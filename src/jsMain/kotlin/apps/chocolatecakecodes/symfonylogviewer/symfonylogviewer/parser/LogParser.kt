@@ -18,7 +18,7 @@ internal class LogParser(
         val INVALID_DATE = Date(0)
     }
 
-     fun processLines(): List<LogLine> {
+    fun processLines(): List<LogLine> {
         var strIdx = 0
         var lineEndIdx = -1
         var line: String
@@ -57,6 +57,8 @@ internal class LogParser(
 //                yield()
         }
 
+
+        console.log("processed ${ret.size} lines")
         return ret
     }
 
