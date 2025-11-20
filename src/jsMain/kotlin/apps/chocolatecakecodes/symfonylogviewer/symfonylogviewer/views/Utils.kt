@@ -3,6 +3,7 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views
 import io.kvision.core.Widget
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*
+import web.url.URL
 
 @OptIn(ExperimentalSerializationApi::class)
 internal val prettyJson = Json {
@@ -41,5 +42,13 @@ internal fun JsonObject.getAsInt(key: String): Int? {
 internal fun JsonObject.getAsObj(key: String): JsonObject? {
     return this.getOrNull(key)?.let {
         it as? JsonObject
+    }
+}
+
+internal fun domainFromUrl(url: String): String? {
+    try {
+        return URL(url).host.ifEmpty { null }
+    } catch (e: Throwable) {
+        return null
     }
 }
