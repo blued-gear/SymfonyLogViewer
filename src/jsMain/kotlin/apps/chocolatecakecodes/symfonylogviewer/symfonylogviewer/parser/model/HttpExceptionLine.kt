@@ -2,7 +2,6 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.ExtractorUtils
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.domainFromUrl
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -51,7 +50,7 @@ internal data class HttpExceptionLine(
         ExtractorUtils.extractUrls(rawLine).forEach {
             groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it.removePrefix("https://")))
 
-            domainFromUrl(it)?.let {
+            ExtractorUtils.domainFromUrl(it)?.let {
                 groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
             }
         }

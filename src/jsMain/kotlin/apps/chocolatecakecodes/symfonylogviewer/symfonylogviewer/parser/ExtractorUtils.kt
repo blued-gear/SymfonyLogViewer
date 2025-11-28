@@ -4,6 +4,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import web.url.URL
 
 internal object ExtractorUtils {
 
@@ -13,7 +14,18 @@ internal object ExtractorUtils {
     fun extractUrls(str: String): List<String> {
         return REGEX_URL.findAll(str).map {
             it.value
+        }.filter {
+            // filter out truncated URLs
+            it.count { it == '/' } > 2
         }.toList()
+    }
+
+    internal fun domainFromUrl(url: String): String? {
+        try {
+            return URL(url).host.ifEmpty { null }
+        } catch (e: Throwable) {
+            return null
+        }
     }
 
     fun allStringsInJson(elm: JsonElement): List<String> {
