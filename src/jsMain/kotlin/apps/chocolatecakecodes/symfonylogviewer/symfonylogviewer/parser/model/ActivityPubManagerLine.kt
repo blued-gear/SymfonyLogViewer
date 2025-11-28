@@ -1,5 +1,6 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.ExtractorUtils
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
 import kotlin.js.Date
 
@@ -16,10 +17,24 @@ internal data class ActivityPubManagerLine(
     val activityAudience: String,
 ) : LogLine {
 
-    override val groups: List<Pair<LogMessageGroup, String>> = listOf(
-        Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
-        Pair(LogMessageGroup.FILE, "ActivityPubManager"),
-        Pair(LogMessageGroup.LEVEL, level.name),
-        Pair(LogMessageGroup.CHANNEL, channel),
-    )
+    override val groups: List<Pair<LogMessageGroup, String>>
+
+    init {
+        val groups = mutableListOf(
+            Pair(LogMessageGroup.TYPE, this::class.simpleName!!),
+            Pair(LogMessageGroup.FILE, "ActivityPubManager"),
+            Pair(LogMessageGroup.LEVEL, level.name),
+            Pair(LogMessageGroup.CHANNEL, channel),
+        )
+
+        ExtractorUtils.extractUrls(rawLine).forEach {
+            groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it))
+
+            ExtractorUtils.domainFromUrl(it)?.let {
+                groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
+            }
+        }
+
+        this.groups = groups
+    }
 }
