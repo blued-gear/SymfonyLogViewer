@@ -1,5 +1,6 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.ExtractorUtils
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.domainFromUrl
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
@@ -28,15 +29,16 @@ internal data class ActivityHandlerLine(
         )
 
         extractHttpStatus()?.let { groups.add(Pair(LogMessageGroup.HTTP_RESP_STATUS, it)) }
-        extractHttpAddress()?.let {
-            groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it))
+        extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
+        extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
+
+        ExtractorUtils.extractUrls(rawLine).forEach {
+            groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it.removePrefix("https://")))
 
             domainFromUrl(it)?.let {
                 groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
             }
         }
-        extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
-        extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
 
         this.groups = groups
     }
