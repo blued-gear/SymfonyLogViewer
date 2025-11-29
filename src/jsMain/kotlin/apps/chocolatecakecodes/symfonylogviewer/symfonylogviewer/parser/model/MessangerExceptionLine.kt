@@ -1,5 +1,6 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.ExtractorUtils
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
@@ -35,6 +36,14 @@ internal data class MessangerExceptionLine(
 
         extractPrevErrorMessage()?.let { groups.add(Pair(LogMessageGroup.RELATED, it) )}
         extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
+
+        ExtractorUtils.extractUrls(rawLine).forEach {
+            groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it))
+
+            ExtractorUtils.domainFromUrl(it)?.let {
+                groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
+            }
+        }
 
         this.groups = groups
     }

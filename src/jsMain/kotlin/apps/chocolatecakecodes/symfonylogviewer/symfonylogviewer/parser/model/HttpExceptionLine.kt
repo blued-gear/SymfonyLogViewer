@@ -1,7 +1,7 @@
 package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model
 
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.ExtractorUtils
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.LogMessageGroup
-import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.domainFromUrl
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -30,13 +30,8 @@ internal data class HttpExceptionLine(
             Pair(LogMessageGroup.LEVEL, level.name),
             Pair(LogMessageGroup.CHANNEL, channel),
             Pair(LogMessageGroup.EXCEPTION_TYPE, exceptionType),
-            Pair(LogMessageGroup.HTTP_ADDRESS, httpAddress.removePrefix("https://")),
             Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()),
         )
-
-        domainFromUrl(httpAddress)?.let {
-            groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
-        }
 
         if(ctxMessage.isNotEmpty())
             groups.add(Pair(LogMessageGroup.RELATED, ctxMessage))
@@ -50,6 +45,14 @@ internal data class HttpExceptionLine(
                     groups.add(Pair(LogMessageGroup.LEMMY_ERROR, it))
                 }
             } catch(_: Throwable) {}
+        }
+
+        ExtractorUtils.extractUrls(rawLine).forEach {
+            groups.add(Pair(LogMessageGroup.HTTP_ADDRESS, it.removePrefix("https://")))
+
+            ExtractorUtils.domainFromUrl(it)?.let {
+                groups.add(Pair(LogMessageGroup.HTTP_DOMAIN, it))
+            }
         }
 
         this.groups = groups
