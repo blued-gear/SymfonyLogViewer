@@ -4,13 +4,16 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.*
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsInt
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsObj
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.getAsString
+import js.buffer.ArrayBuffer
+import js.typedarrays.Uint8Array
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import web.encoding.TextDecoder
 import kotlin.js.Date
 
 internal class LogParser(
-    val log: String,
+    val logData: ArrayBuffer,
 ) {
 
     companion object {
@@ -19,47 +22,48 @@ internal class LogParser(
     }
 
     fun processLines(): List<LogLine> {
-        var strIdx = 0
-        var lineEndIdx = -1
-        var line: String
+        val data = Uint8Array(logData)
+        val decoder = TextDecoder()
+        var startByteIdx = 0
+        var endByteIdx = data.indexOf('\n'.toShort())
         var lineNum = 1
-        var json: JsonElement
 
         val ret = mutableListOf<LogLine>()
-        while(lineEndIdx < log.lastIndex) {
-            lineEndIdx = log.indexOf('\n', strIdx)
-            if(lineEndIdx == -1)
-                lineEndIdx = log.length
-            line = log.substring(strIdx, lineEndIdx)
+        while(endByteIdx != -1) {
+            val line = decoder.decode(data.slice(startByteIdx, endByteIdx))
+            parseLine(line, lineNum)?.let { ret.add(it) }
 
-            if(line.startsWith('{')) {
-                try {
-                    json = Json.parseToJsonElement(line)
-                    val parsed: LogLine = tryParseHttpException(json, line)
-                        ?: tryParseMessangerException(json, line)
-                        ?: tryParseActivityHandlerLine(json, line)
-                        ?: tryParseActivityPubManagerLine(json, line)
-                        ?: tryParseDownloadErrorLine(json, line)
-                        ?: tryParseUnknownLine(json, line)?.also { console.warn("encountered unknown line at line $lineNum") }
-                        ?: fallbackLine(line).also { console.warn("encountered unparseable line at line $lineNum") }
-                    ret.add(parsed)
-                } catch(e: Throwable) {
-                    console.warn("unable to parse line $lineNum", e)
-                    ret.add(fallbackLine(line))
-                }
-            }
-
-            strIdx = lineEndIdx + 1
             lineNum++
-
-            // prevent blocking of the UI
-//            if(lineNum / 200 == 1)
-//                yield()
+            startByteIdx = endByteIdx + 1
+            endByteIdx = data.indexOf('\n'.toShort(), startByteIdx)
         }
-
+        if(startByteIdx < data.length - 1) {
+            val line = decoder.decode(data.slice(startByteIdx, data.length))
+            parseLine(line, lineNum)?.let { ret.add(it) }
+        }
 
         console.log("processed ${ret.size} lines")
         return ret
+    }
+
+    private fun parseLine(line: String, lineNum: Int): LogLine? {
+        if(line.startsWith('{')) {
+            try {
+                val json = Json.parseToJsonElement(line)
+                val parsed: LogLine = tryParseHttpException(json, line)
+                    ?: tryParseMessangerException(json, line)
+                    ?: tryParseActivityHandlerLine(json, line)
+                    ?: tryParseActivityPubManagerLine(json, line)
+                    ?: tryParseDownloadErrorLine(json, line)
+                    ?: tryParseUnknownLine(json, line)?.also { console.warn("encountered unknown line at line $lineNum") }
+                    ?: fallbackLine(line).also { console.warn("encountered unparseable line at line $lineNum") }
+                return parsed
+            } catch(e: Throwable) {
+                console.warn("unable to parse line $lineNum", e)
+                return fallbackLine(line)
+            }
+        }
+        return null
     }
 
     private fun tryParseHttpException(json: JsonElement, line: String): HttpExceptionLine? {
