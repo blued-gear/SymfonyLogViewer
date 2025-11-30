@@ -13,12 +13,13 @@ import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.state.bindTo
+import js.buffer.ArrayBuffer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 internal class LogView (
-    private val data: String,
+    private val data: ArrayBuffer,
 ) : Div() {
 
     private lateinit var allLines: List<LogLine>

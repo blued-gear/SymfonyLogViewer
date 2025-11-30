@@ -5,11 +5,12 @@ import io.kvision.html.Div
 import io.kvision.html.InputType
 import io.kvision.html.div
 import io.kvision.html.input
+import js.buffer.ArrayBuffer
 import org.w3c.files.File
 import org.w3c.files.FileReader
 
 internal class StartView(
-    private val onNext: (String) -> Unit,
+    private val onNext: (ArrayBuffer) -> Unit,
 ) : Div() {
 
     private val msg: Div
@@ -44,6 +45,6 @@ internal class StartView(
             console.error(reader.error)
             msg.apply { +"unable to load file" }
         }
-        reader.readAsText(file)
+        reader.readAsArrayBuffer(file)
     }
 }
