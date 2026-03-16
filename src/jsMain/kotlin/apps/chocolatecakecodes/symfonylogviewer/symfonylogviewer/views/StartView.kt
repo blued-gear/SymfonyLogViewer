@@ -23,6 +23,7 @@ internal class StartView(
         }
         input {
             this.type = InputType.FILE
+            this.addCssClasses("block", "w-full", "text-base", "text-gray-900", "border", "border-gray-300", "rounded-lg", "cursor-pointer", "bg-gray-50", "py-2", "px-4", "dark:text-gray-400", "focus:outline-none", "dark:border-gray-600", "dark:focus:border-blue-500", "dark:bg-gray-700")
             this.onChange {
                 onFileSelected(it.target.asDynamic().files[0] as File)
             }
