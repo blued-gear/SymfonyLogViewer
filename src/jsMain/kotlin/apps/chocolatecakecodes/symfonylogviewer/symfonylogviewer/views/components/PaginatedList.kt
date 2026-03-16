@@ -37,6 +37,7 @@ internal class PaginatedList <T> (
             this.addCssClasses("flex", "gap-3", "justify-center-safe", "mb-4")
 
             button("<<") {
+                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value = 0
                 }
@@ -45,6 +46,7 @@ internal class PaginatedList <T> (
             }
 
             button("<") {
+                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value -= 1
                 }
@@ -53,10 +55,12 @@ internal class PaginatedList <T> (
             }
 
             div().bind(this@PaginatedList.page) {
+                this.addCssClasses("px-3", "py-1", "text-gray-700", "font-medium")
                 +"${it + 1} / ${this@PaginatedList.pages()}"
             }
 
             button(">") {
+                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value += 1
                 }
@@ -65,6 +69,7 @@ internal class PaginatedList <T> (
             }
 
             button(">>") {
+                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value = this@PaginatedList.pages() - 1
                 }
