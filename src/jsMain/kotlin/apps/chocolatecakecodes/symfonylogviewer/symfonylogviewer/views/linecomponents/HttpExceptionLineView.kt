@@ -20,27 +20,42 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
             this.addCssClasses("grid", "grid-cols-5", "gap-2")
 
             div {
-                +"Time: "
+                div {
+                    this.addCssClasses("font-semibold")
+                    +"Time: "
+                }
                 +line.time.toUTCString()
             }
 
             div {
-                +"Level: "
+                div {
+                    this.addCssClasses("font-semibold")
+                    +"Level: "
+                }
                 +line.level.toString()
             }
 
             div {
-                +"Channel: "
+                div {
+                    this.addCssClasses("font-semibold")
+                    +"Channel: "
+                }
                 +line.channel
             }
 
             div {
-                +"Method: "
+                div {
+                    this.addCssClasses("font-semibold")
+                    +"Method: "
+                }
                 +line.httpType
             }
 
             div {
-                +"Status: "
+                div {
+                    this.addCssClasses("font-semibold")
+                    +"Status: "
+                }
                 +line.httpRespStatus.toString()
             }
         }
@@ -49,30 +64,39 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
             this.addCssClasses("grid", "grid-cols-8", "gap-2")
 
             div {
+                this.addCssClasses("font-semibold")
                 +"Exception Class: "
             }
             div {
-                this.addCssClasses("col-span-7")
+                this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "flex", "items-center", "gap-2")
                 +line.exceptionType
+                copyButton(line.exceptionType, compact = true)
             }
 
             div {
+                this.addCssClasses("font-semibold")
                 +"Address: "
             }
             div {
-                this.addCssClasses("col-span-7")
+                this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "flex", "items-center", "gap-2", "break-all")
                 +line.httpAddress
+                copyButton(line.httpAddress, compact = true)
             }
 
             div {
+                this.addCssClasses("font-semibold")
                 +"Response body: "
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")
-                +line.httpRespBody
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-2", "rounded", "border", "border-gray-200", "whitespace-pre-wrap")
+                    +line.httpRespBody
+                }
             }
 
             div {
+                this.addCssClasses("font-semibold")
                 +"Request body: "
             }
             div {
@@ -91,9 +115,9 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
                         }
                     }
 
-                    this.copyButton(text)
+                    this.copyButton(text, compact = true)
                     div {
-                        this.addCssClasses("w-max", "whitespace-pre")
+                        this.addCssClasses("w-max", "whitespace-pre", "font-mono", "text-sm", "bg-gray-50", "p-2", "rounded", "border", "border-gray-200")
                         +text
                     }
                 }

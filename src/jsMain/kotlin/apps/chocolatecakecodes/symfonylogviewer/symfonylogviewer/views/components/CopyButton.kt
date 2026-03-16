@@ -8,9 +8,9 @@ import io.kvision.html.button
 import web.clipboard.writeText
 import web.navigator.navigator
 
-internal fun Container.copyButton(text: String): Button {
-    return button("Copy") {
-        this.addCssClasses("boxedBtn")
+internal fun Container.copyButton(text: String, compact: Boolean = false): Button {
+    return button(if (compact) "📋" else "Copy") {
+        this.addCssClasses(if (compact) "copy-compact" else "boxedBtn")
         this.onClickLaunch {
             it.stopPropagation()
             navigator.clipboard.writeText(text)

@@ -172,8 +172,31 @@
 }
 
 .boxedBtn {
-    border: solid 1px;
-    background-color: lightgray;
-    padding: 0.2rem;
-    cursor: pointer
+    border: solid 1px #d1d5db;
+    background-color: #f9fafb;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.boxedBtn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.copy-compact {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.copy-compact:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.05);
 }

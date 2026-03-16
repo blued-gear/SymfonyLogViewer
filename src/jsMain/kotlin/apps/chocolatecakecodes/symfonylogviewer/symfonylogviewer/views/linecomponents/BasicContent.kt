@@ -25,7 +25,7 @@ internal fun Div.addBasicContent(line: LogLine) {
 
         copyButton(text)
         div {
-            this.addCssClasses("whitespace-pre", "overflow-x-auto")
+            this.addCssClasses("whitespace-pre", "overflow-x-auto", "font-mono", "text-sm", "bg-gray-900", "text-gray-100", "p-3", "rounded", "border", "border-gray-700")
             +text
         }
     }.also { expander ->
