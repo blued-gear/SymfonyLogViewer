@@ -82,7 +82,7 @@ internal class LogView (
 
     private fun listView(container: Container) {
         container.div {
-            this.addCssClasses("p-4", "border-2", "border-solid")
+            this.addCssClasses("p-4", "border", "border-gray-400", "rounded-lg", "shadow-sm")
             this.paginatedList(this@LogView.filteredLines) { line ->
                 when(line) {
                     is HttpExceptionLine -> httpExceptionLineView(line)
