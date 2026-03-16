@@ -37,6 +37,7 @@ kotlin {
         implementation("io.kvision:kvision-state:$kvisionVersion")
         implementation("io.kvision:kvision-state-flow:$kvisionVersion")
         implementation("io.kvision:kvision-tailwindcss:$kvisionVersion")
+        implementation(npm("@tailwindcss/forms", "latest"))
 
         implementation("org.jetbrains.kotlin-wrappers:kotlin-browser:2025.10.12")
     }

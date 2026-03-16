@@ -8,36 +8,66 @@ import io.kvision.html.h3
 
 internal fun downloadErrorLineView(line: DownloadErrorLine): Div {
     return Div {
-        this.addCssClasses("border-1", "border-solid", "p-1")
+        this.addCssClasses("border", "border-gray-400", "rounded-lg", "p-2", "mb-2")
 
         h3 { +"Download error" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-5", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 5fr)")
 
             div {
-                +"Time: "
-                +line.time.toUTCString()
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
             }
 
             div {
-                +"Level: "
-                +line.level.toString()
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
             }
 
             div {
-                +"Channel: "
-                +line.channel
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Channel:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.channel
+                }
             }
 
             div {
-                +"Url: "
-                +line.url
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Url:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.url
+                }
             }
+
         }
 
         div {
+            this.addCssClasses("font-semibold")
             +"Message: "
+        }
+        div {
+            this.addCssClasses("font-mono", "text-sm", "bg-red-50", "p-2", "rounded", "border", "border-red-200", "whitespace-pre-wrap")
             +line.message
         }
 

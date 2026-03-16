@@ -23,9 +23,9 @@ internal fun Div.addBasicContent(line: LogLine) {
             line.rawLine
         }
 
-        copyButton(text)
+        copyButton(text, compact = true)
         div {
-            this.addCssClasses("whitespace-pre", "overflow-x-auto")
+            this.addCssClasses("whitespace-pre", "overflow-x-auto", "font-mono", "text-sm", "bg-gray-900", "text-gray-100", "p-3", "rounded-lg", "border", "border-gray-600")
             +text
         }
     }.also { expander ->
@@ -36,9 +36,9 @@ internal fun Div.addBasicContent(line: LogLine) {
 
     when(line.level) {
         Level.UNKNOWN, Level.INFO -> ""
-        Level.WARN -> "bg-yellow-300"
-        Level.ERROR -> "bg-red-300"
-        Level.CRIT -> "bg-red-400"
+        Level.WARN -> "bg-amber-100"
+        Level.ERROR -> "bg-rose-200"
+        Level.CRIT -> "bg-red-300"
     }.let {
         this.addCssClass(it)
     }
