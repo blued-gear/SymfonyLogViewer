@@ -8,7 +8,7 @@ import io.kvision.html.h3
 
 internal fun downloadErrorLineView(line: DownloadErrorLine): Div {
     return Div {
-        this.addCssClasses("border-1", "border-solid", "p-1")
+        this.addCssClasses("border", "border-gray-400", "rounded-lg", "p-2", "mb-2")
 
         h3 { +"Download error" }
 

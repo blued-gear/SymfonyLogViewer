@@ -8,6 +8,8 @@ import io.kvision.html.h3
 
 internal fun activityPubManagerLineView(line: ActivityPubManagerLine): Div {
     return Div {
+        this.addCssClasses("border", "border-gray-400", "rounded-lg", "p-2", "mb-2")
+        
         h3 { +"Activity Handler error" }
 
         div {

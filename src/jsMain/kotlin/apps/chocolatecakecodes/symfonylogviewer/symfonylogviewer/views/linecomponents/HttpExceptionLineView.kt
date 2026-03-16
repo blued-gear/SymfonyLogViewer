@@ -12,7 +12,7 @@ import kotlinx.serialization.json.Json
 
 internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
     return Div {
-        this.addCssClasses("border-1", "border-solid", "p-1")
+        this.addCssClasses("border", "border-gray-400", "rounded-lg", "p-2", "mb-2")
 
         h3 { +"Http Exception" }
 
@@ -84,7 +84,7 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
                 +"Exception Class: "
             }
             div {
-                this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "flex", "items-center", "gap-2")
+                this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-red-50", "p-1", "rounded", "border", "border-red-200", "flex", "items-center", "gap-2")
                 +line.exceptionType
                 copyButton(line.exceptionType, compact = true)
             }

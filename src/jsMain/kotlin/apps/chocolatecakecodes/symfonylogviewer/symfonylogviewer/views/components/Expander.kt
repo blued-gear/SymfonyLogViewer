@@ -11,7 +11,7 @@ internal inline fun Container.expander(collapsedHeight: String = "8rem", crossin
     return div {
         this.content()
 
-        this.addCssClasses("overflow-hidden", "border-solid", "border-1", "p-1")
+        this.addCssClasses("overflow-hidden", "border", "border-gray-400", "rounded-lg", "p-2")
         this.setStyle("max-height", collapsedHeight)
         var expanded = false
         this.onClick {
