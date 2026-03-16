@@ -23,7 +23,7 @@ internal fun Div.addBasicContent(line: LogLine) {
             line.rawLine
         }
 
-        copyButton(text)
+        copyButton(text, compact = true)
         div {
             this.addCssClasses("whitespace-pre", "overflow-x-auto", "font-mono", "text-sm", "bg-gray-900", "text-gray-100", "p-3", "rounded", "border", "border-gray-700")
             +text

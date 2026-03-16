@@ -11,55 +11,110 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine): Div {
         h3 { +"Activity Handler error" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-6", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr)")
 
             div {
-                +"Time: "
-                +line.time.toUTCString()
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
             }
 
             div {
-                +"Level: "
-                +line.level.toString()
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
             }
 
             div {
-                +"Channel: "
-                +line.channel
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Channel:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.channel
+                }
             }
         }
 
         div {
-            +"Message: "
-            +line.message
+            div {
+                this.addCssClasses("font-semibold")
+                +"Message:"
+            }
+            div {
+                this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-2", "rounded", "border", "border-gray-200", "whitespace-pre-wrap")
+                +line.message
+            }
         }
 
         div {
             this.addCssClasses("grid", "grid-cols-5", "gap-2")
 
             div {
-                +"Activity id: "
-                +line.activityId
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Activity id:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.activityId
+                }
             }
 
             div {
-                +"Activity type: "
-                +line.activityType
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Activity type:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.activityType
+                }
             }
 
             div {
-                +"Activity object: "
-                +line.activityObject
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Activity object:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.activityObject
+                }
             }
 
             div {
-                +"Activity actor: "
-                +line.activityActor
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Activity actor:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.activityActor
+                }
             }
 
             div {
-                +"Activity audience: "
-                +line.activityAudience
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Activity audience:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.activityAudience
+                }
             }
         }
 

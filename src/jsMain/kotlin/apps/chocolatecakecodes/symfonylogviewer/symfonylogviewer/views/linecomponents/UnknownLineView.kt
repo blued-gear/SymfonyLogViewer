@@ -11,13 +11,30 @@ internal fun unknownLineView(line: UnknownLine): Div {
         h3 { +"Unknown log event" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-4", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr)")
 
-            div { +"Time:" }
-            div { +line.time.toTimeString() }
+            div {
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
+            }
 
-            div { +"Level:" }
-            div { +line.level.toString() }
+            div {
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
+            }
         }
 
         addBasicContent(line)

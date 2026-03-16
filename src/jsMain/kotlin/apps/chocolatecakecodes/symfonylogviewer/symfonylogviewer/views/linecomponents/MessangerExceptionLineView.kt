@@ -12,54 +12,73 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine): Div {
         h3 { +"Messanger Exception" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-6", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr)")
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Time: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
                 }
-                +line.time.toUTCString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Level: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
                 }
-                +line.level.toString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Channel: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Channel:"
                 }
-                +line.channel
+                div {
+                    this.addCssClasses("truncate")
+                    +line.channel
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Message type: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Message type:"
                 }
-                +line.messageType
+                div {
+                    this.addCssClasses("truncate")
+                    +line.messageType
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Message id: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Message id:"
                 }
-                +line.messageId
+                div {
+                    this.addCssClasses("truncate")
+                    +line.messageId
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Retries: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Retries:"
                 }
-                +line.retryCount.toString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.retryCount.toString()
+                }
             }
         }
 

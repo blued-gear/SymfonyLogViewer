@@ -17,46 +17,62 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
         h3 { +"Http Exception" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-5", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr)")
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Time: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
                 }
-                +line.time.toUTCString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Level: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
                 }
-                +line.level.toString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Channel: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Channel:"
                 }
-                +line.channel
+                div {
+                    this.addCssClasses("truncate")
+                    +line.channel
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Method: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Method:"
                 }
-                +line.httpType
+                div {
+                    this.addCssClasses("truncate")
+                    +line.httpType
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Status: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Status:"
                 }
-                +line.httpRespStatus.toString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.httpRespStatus.toString()
+                }
             }
         }
 

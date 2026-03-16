@@ -13,37 +13,51 @@ internal fun downloadErrorLineView(line: DownloadErrorLine): Div {
         h3 { +"Download error" }
 
         div {
-            this.addCssClasses("grid", "grid-cols-5", "gap-2")
+            this.addCssClasses("grid", "gap-2")
+            this.setStyle("grid-template-columns", "minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 5fr)")
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Time: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Time:"
                 }
-                +line.time.toUTCString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.time.toUTCString()
+                }
             }
 
             div {
                 div {
-                    this.addCssClasses("font-semibold")
-                    +"Level: "
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Level:"
                 }
-                +line.level.toString()
+                div {
+                    this.addCssClasses("truncate")
+                    +line.level.toString()
+                }
             }
 
             div {
-                this.addCssClasses("font-semibold")
-                +"Channel: "
-                +line.channel
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Channel:"
+                }
+                div {
+                    this.addCssClasses("truncate")
+                    +line.channel
+                }
             }
 
             div {
-                this.addCssClasses("font-semibold")
-                +"Url: "
-            }
-            div {
-                this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
-                +line.url
+                div {
+                    this.addCssClasses("font-semibold", "text-sm")
+                    +"Url:"
+                }
+                div {
+                    this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-1", "rounded", "border", "border-gray-200", "break-all")
+                    +line.url
+                }
             }
 
         }
