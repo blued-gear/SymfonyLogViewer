@@ -113,7 +113,7 @@ internal class LogView (
                         }
                     }.bind(this@LogView.groups) { groups ->
                         this.options = listOf(Pair("", "ALL")) + groups.keys.map { Pair(it.toString(), it.toString()) }.toList()
-                    }
+                    }.bindTo(this@LogView.currentGroup)
                 }
 
                 div {
@@ -160,11 +160,10 @@ internal class LogView (
                     }
                     select {
                         this.addCssClasses("filterSelect")
-                        this.value = "all"
                         this.subscribe { scope ->
                             this@LogView.searchScope.value = scope ?: "all"
                         }
-                    }.options = listOf(
+                    }.bindTo(this@LogView.searchScope).options = listOf(
                         Pair("raw", "Raw Line"),
                         Pair("message", "Message Only"),
                         Pair("all", "All Fields")
