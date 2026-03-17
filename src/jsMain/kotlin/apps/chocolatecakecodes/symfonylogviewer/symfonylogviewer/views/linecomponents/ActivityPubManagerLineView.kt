@@ -9,7 +9,7 @@ import io.kvision.html.h3
 
 internal fun activityPubManagerLineView(line: ActivityPubManagerLine): Div {
     return Div {
-        this.addCssClasses("border", "border-gray-300", "rounded-lg", "p-4", "mb-3", "shadow-md", "bg-white", "hover:shadow-lg", "transition-shadow")
+        this.addCssClasses("border", "border-gray-300", "rounded-lg", "p-4", "mb-3", "shadow-md", "bg-gray-200", "hover:shadow-lg", "transition-shadow")
         
         h3 {
             this.addCssClasses("text-lg", "font-bold", "mb-3", "pb-2", "border-b", "border-gray-200", "text-gray-800")

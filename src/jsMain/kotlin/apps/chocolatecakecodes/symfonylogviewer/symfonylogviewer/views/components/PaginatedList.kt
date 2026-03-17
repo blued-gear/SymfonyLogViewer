@@ -37,7 +37,7 @@ internal class PaginatedList <T> (
             this.addCssClasses("flex", "gap-3", "justify-center-safe", "mb-4")
 
             button("<<") {
-                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value = 0
                 }
@@ -46,7 +46,7 @@ internal class PaginatedList <T> (
             }
 
             button("<") {
-                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value -= 1
                 }
@@ -60,7 +60,7 @@ internal class PaginatedList <T> (
             }
 
             button(">") {
-                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value += 1
                 }
@@ -69,7 +69,7 @@ internal class PaginatedList <T> (
             }
 
             button(">>") {
-                this.addCssClasses("px-3", "py-1", "bg-blue-600", "text-white", "border", "border-blue-600", "rounded", "hover:bg-blue-700", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
                 this.onClick {
                     this@PaginatedList.page.value = this@PaginatedList.pages() - 1
                 }
