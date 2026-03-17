@@ -4,6 +4,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.Ht
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.addCssClasses
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.copyButton
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.expander
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.components.externalLinkButton
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.levelBadge
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.prettyJson
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.statusBadge
@@ -102,6 +103,7 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
             div {
                 this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-blue-50", "p-2", "rounded-md", "border", "border-blue-200", "flex", "items-center", "gap-2", "break-all", "shadow-sm")
                 +line.httpAddress
+                externalLinkButton(line.httpAddress, compact = true)
                 copyButton(line.httpAddress, compact = true)
             }
 
