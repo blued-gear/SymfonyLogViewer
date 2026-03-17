@@ -13,7 +13,6 @@ _TODOs:_
 
 - **Search**: Search through logs to quickly find relevant entries
 - **Advanced Filtering:** More advanced filter capabilities 
-- **Good looking:** Improved design, which is both appealing to your eyes as well as functional at the same time
 
 ## Getting started
 

@@ -34,12 +34,12 @@ internal fun Div.addBasicContent(line: LogLine) {
         }
     }
 
-    when(line.level) {
+    /*when(line.level) {
         Level.UNKNOWN, Level.INFO -> ""
         Level.WARN -> "bg-amber-100"
         Level.ERROR -> "bg-rose-200"
         Level.CRIT -> "bg-red-300"
     }.let {
         this.addCssClass(it)
-    }
+    }*/
 }
