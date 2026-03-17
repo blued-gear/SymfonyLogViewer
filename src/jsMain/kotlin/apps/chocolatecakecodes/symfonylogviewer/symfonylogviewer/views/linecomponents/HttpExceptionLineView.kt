@@ -13,7 +13,7 @@ import io.kvision.html.div
 import io.kvision.html.h3
 import kotlinx.serialization.json.Json
 
-internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
+internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
         this.addCssClasses("border", "border-gray-300", "rounded-lg", "p-4", "mb-3", "shadow-md", "bg-gray-200", "hover:shadow-lg", "transition-shadow")
 
@@ -148,6 +148,6 @@ internal fun httpExceptionLineView(line: HttpExceptionLine): Div {
             }
         }
 
-        addBasicContent(line)
+        addBasicContent(line, searchQuery, searchScope)
     }
 }

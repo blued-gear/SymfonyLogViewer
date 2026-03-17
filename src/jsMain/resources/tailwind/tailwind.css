@@ -163,10 +163,6 @@
   --z-index-999999: 999999;    
 }
 
-.filterSelect {
-    width: 52rem;
-}
-
 .filterSelect select {
     width: 100%;
     padding: 0.5rem 0.75rem;
@@ -175,7 +171,21 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
+.filterSelect input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
 .filterSelect select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filterSelect input:focus {
     outline: none;
     border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);

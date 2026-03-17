@@ -9,7 +9,7 @@ import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
 
-internal fun messangerExceptionLineView(line: MessangerExceptionLine): Div {
+internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
         this.addCssClasses("border", "border-gray-300", "rounded-lg", "p-4", "mb-3", "shadow-md", "bg-gray-200", "hover:shadow-lg", "transition-shadow")
         
@@ -135,6 +135,6 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine): Div {
             }
         }
 
-        addBasicContent(line)
+        addBasicContent(line, searchQuery, searchScope)
     }
 }
