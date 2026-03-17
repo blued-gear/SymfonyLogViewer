@@ -34,47 +34,76 @@ internal class PaginatedList <T> (
 
     private fun pageBar(parent: Container) {
         parent.div {
-            this.addCssClasses("flex", "gap-3", "justify-center-safe", "mb-4")
+            this.addCssClasses("flex", "gap-3", "items-center", "mb-4")
 
-            button("<<") {
-                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
-                this.onClick {
-                    this@PaginatedList.page.value = 0
+            // Results count on the left
+            div().bind(this@PaginatedList.list) {
+                this.addCssClasses("text-sm", "text-gray-600", "flex-shrink-0")
+                val total = this@PaginatedList.list.size
+                +if(total == 0) {
+                    "No results found"
+                } else if(total == 1) {
+                    "1 result"
+                } else {
+                    "$total results"
                 }
-            }.bind(this@PaginatedList.page) {
-                this.disabled = it == 0
             }
 
-            button("<") {
-                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
-                this.onClick {
-                    this@PaginatedList.page.value -= 1
-                }
-            }.bind(this@PaginatedList.page) {
-                this.disabled = it == 0
+            // Spacer to push pagination to center
+            div {
+                this.addCssClasses("flex-grow")
             }
 
-            div().bind(this@PaginatedList.page) {
-                this.addCssClasses("px-3", "py-1", "text-gray-700", "font-medium")
-                +"${it + 1} / ${this@PaginatedList.pages()}"
+            // Pagination controls in the center
+            div {
+                this.addCssClasses("flex", "gap-3", "justify-center-safe")
+
+                button("<<") {
+                    this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                    this.onClick {
+                        this@PaginatedList.page.value = 0
+                    }
+                }.bind(this@PaginatedList.page) {
+                    this.disabled = it == 0
+                }
+
+                button("<") {
+                    this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                    this.onClick {
+                        this@PaginatedList.page.value -= 1
+                    }
+                }.bind(this@PaginatedList.page) {
+                    this.disabled = it == 0
+                }
+
+                div().bind(this@PaginatedList.page) {
+                    this.addCssClasses("px-3", "py-1", "text-gray-700", "font-medium")
+                    val currentPage = if (this@PaginatedList.pages() == 0) 0 else it + 1
+                    +"$currentPage / ${this@PaginatedList.pages()}"
+                }
+
+                button(">") {
+                    this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                    this.onClick {
+                        this@PaginatedList.page.value += 1
+                    }
+                }.bind(this@PaginatedList.page) {
+                    this.disabled = it >= this@PaginatedList.pages() - 1 || this@PaginatedList.pages() == 0
+                }
+
+                button(">>") {
+                    this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
+                    this.onClick {
+                        this@PaginatedList.page.value = this@PaginatedList.pages() - 1
+                    }
+                }.bind(this@PaginatedList.page) {
+                    this.disabled = it >= this@PaginatedList.pages() - 1 || this@PaginatedList.pages() == 0
+                }
             }
 
-            button(">") {
-                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
-                this.onClick {
-                    this@PaginatedList.page.value += 1
-                }
-            }.bind(this@PaginatedList.page) {
-                this.disabled = it == this@PaginatedList.pages() - 1
-            }
-
-            button(">>") {
-                this.addCssClasses("px-3", "py-1", "bg-sky-600", "text-white", "border", "border-sky-600", "rounded", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "disabled:bg-gray-400", "disabled:border-gray-400", "disabled:cursor-not-allowed")
-                this.onClick {
-                    this@PaginatedList.page.value = this@PaginatedList.pages() - 1
-                }
-            }.bind(this@PaginatedList.page) {
-                this.disabled = it == this@PaginatedList.pages() - 1
+            // Spacer on the right to balance
+            div {
+                this.addCssClasses("flex-grow")
             }
         }
     }

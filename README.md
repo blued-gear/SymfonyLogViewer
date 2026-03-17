@@ -11,7 +11,6 @@ A web-based interface for viewing, filtering, and analyzing Symfony application 
 
 _TODOs:_
 
-- **Search**: Search through logs to quickly find relevant entries
 - **Advanced Filtering:** More advanced filter capabilities 
 
 ## Screenshot

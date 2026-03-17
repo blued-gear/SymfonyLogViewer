@@ -7,6 +7,8 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.component
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomponents.*
 import io.kvision.core.Container
 import io.kvision.form.select.select
+import io.kvision.form.text.text
+import io.kvision.html.button
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.state.ObservableListWrapper
@@ -16,6 +18,8 @@ import io.kvision.state.bindTo
 import js.buffer.ArrayBuffer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal class LogView (
@@ -27,7 +31,10 @@ internal class LogView (
     private val groups = ObservableValue<Map<LogMessageGroup, Set<String>>>(emptyMap())
     private val currentGroup = ObservableValue<String>("")
     private val currentValue = ObservableValue<String>("")
+    private val searchQuery = ObservableValue<String>("")
+    private val searchScope = ObservableValue<String>("all")
     private val filteredLines = ObservableListWrapper<LogLine>(mutableListOf())
+    private var searchDebounceJob: Job? = null
 
     init {
         this.addCssClasses("max-w-8xl", "mx-auto", "p-4")
@@ -48,6 +55,23 @@ internal class LogView (
                     filter(currentGroup.value, it)
                 }
             }
+            
+            searchQuery.subscribe {
+                // Cancel previous debounce job
+                searchDebounceJob?.cancel()
+                
+                // Start new debounce job
+                searchDebounceJob = CoroutineScope(Dispatchers.Default).launch {
+                    delay(300) // 300ms debounce delay
+                    filter(currentGroup.value, currentValue.value)
+                }
+            }
+            
+            searchScope.subscribe {
+                CoroutineScope(Dispatchers.Default).launch {
+                    filter(currentGroup.value, currentValue.value)
+                }
+            }
         }
     }
 
@@ -55,46 +79,96 @@ internal class LogView (
         container.div().apply {
             this.addCssClasses("mb-3")
             div {
-                this.addCssClasses("text-sm", "font-semibold", "text-gray-700", "mb-2")
-                +"🔍 Filter Options"
+                this.addCssClasses("flex", "justify-between", "items-center", "mb-2")
+                div {
+                    this.addCssClasses("text-sm", "font-semibold", "text-gray-700")
+                    +"🔍 Filter Options"
+                }
+                button("Reset All") {
+                    this.addCssClasses("text-xs", "px-3", "py-1", "bg-gray-500", "text-white", "border", "border-gray-500", "rounded", "hover:bg-gray-600", "focus:outline-none", "focus:ring-2", "focus:ring-gray-400")
+                    this.onClick {
+                        this@LogView.resetAllFilters()
+                    }
+                }
             }
         }
 
         container.div().apply {
-            this.addCssClasses("space-y-4")
+            this.addCssClasses("flex", "flex-col", "md:flex-row", "gap-4")
             
+            // Left Column - Filter Section (60%)
             div {
+                this.addCssClasses("w-full", "md:w-[60%]", "space-y-4")
+                
                 div {
-                    this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                    +"Filter Attribute:"
-                }
-                select {
-                    this.addCssClasses("filterSelect")
-
-                    this.subscribe {
-                        this@LogView.currentGroup.value = it ?: ""
+                    div {
+                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                        +"Filter Attribute:"
                     }
-                }.bind(this@LogView.groups) { groups ->
-                    this.options = listOf(Pair("", "ALL")) + groups.keys.map { Pair(it.toString(), it.toString()) }.toList()
+                    select {
+                        this.addCssClasses("filterSelect")
+
+                        this.subscribe {
+                            this@LogView.currentGroup.value = it ?: ""
+                        }
+                    }.bind(this@LogView.groups) { groups ->
+                        this.options = listOf(Pair("", "ALL")) + groups.keys.map { Pair(it.toString(), it.toString()) }.toList()
+                    }.bindTo(this@LogView.currentGroup)
+                }
+
+                div {
+                    div {
+                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                        +"Attribute Value:"
+                    }
+                    select {
+                        this.addCssClasses("filterSelect")
+                    }.bind(this@LogView.currentGroup) { group ->
+                        if(group == "") {
+                            this.options = emptyList()
+                            this@LogView.currentValue.value = ""
+                        } else {
+                            this.options = this@LogView.attributeFilterValues(group)
+                            this@LogView.currentValue.value = this.options!!.first().first
+                        }
+                    }.bindTo(this@LogView.currentValue)
                 }
             }
-
+            
+            // Right Column - Search Section (40%)
             div {
+                this.addCssClasses("w-full", "md:w-[40%]", "space-y-4")
+                
                 div {
-                    this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                    +"Attribute Value:"
-                }
-                select {
-                    this.addCssClasses("filterSelect")
-                }.bind(this@LogView.currentGroup) { group ->
-                    if(group == "") {
-                        this.options = emptyList()
-                        this@LogView.currentValue.value = ""
-                    } else {
-                        this.options = this@LogView.attributeFilterValues(group)
-                        this@LogView.currentValue.value = this.options!!.first().first
+                    div {
+                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                        +"Text Search:"
                     }
-                }.bindTo(this@LogView.currentValue)
+                    text {
+                        this.addCssClasses("filterSelect", "mb-2")
+                        this.placeholder = "Search in logs..."
+                        this.subscribe { query ->
+                            this@LogView.searchQuery.value = query ?: ""
+                        }
+                    }.bindTo(this@LogView.searchQuery)
+                }
+                
+                div {
+                    div {
+                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                        +"Search Scope:"
+                    }
+                    select {
+                        this.addCssClasses("filterSelect")
+                        this.subscribe { scope ->
+                            this@LogView.searchScope.value = scope ?: "all"
+                        }
+                    }.bindTo(this@LogView.searchScope).options = listOf(
+                        Pair("raw", "Raw Line"),
+                        Pair("message", "Message Only"),
+                        Pair("all", "All Fields")
+                    )
+                }
             }
         }
     }
@@ -104,12 +178,12 @@ internal class LogView (
             this.addCssClasses("bg-white", "p-4", "rounded-lg")
             this.paginatedList(this@LogView.filteredLines) { line ->
                 when(line) {
-                    is HttpExceptionLine -> httpExceptionLineView(line)
-                    is MessangerExceptionLine -> messangerExceptionLineView(line)
-                    is ActivityHandlerLine -> activityHandlerLineView(line)
-                    is ActivityPubManagerLine -> activityPubManagerLineView(line)
-                    is DownloadErrorLine -> downloadErrorLineView(line)
-                    is UnknownLine -> unknownLineView(line)
+                    is HttpExceptionLine -> httpExceptionLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
+                    is MessangerExceptionLine -> messangerExceptionLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
+                    is ActivityHandlerLine -> activityHandlerLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
+                    is ActivityPubManagerLine -> activityPubManagerLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
+                    is DownloadErrorLine -> downloadErrorLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
+                    is UnknownLine -> unknownLineView(line, this@LogView.searchQuery.value, this@LogView.searchScope.value)
                 }
             }
         }
@@ -136,11 +210,57 @@ internal class LogView (
     private suspend fun filter(group: String, value: String) {
         filteredLines.clear()
 
-        if(group == "") {
-            filteredLines.addAll(allLines)
+        val baseLines = if(group == "") {
+            allLines
         } else {
             val grp = LogMessageGroup.valueOf(group)
-            filteredLines.addAll(groupIndexedLines[Pair(grp, value)]!!)
+            groupIndexedLines[Pair(grp, value)] ?: emptyList()
+        }
+        
+        val searchResults = if(searchQuery.value.isBlank()) {
+            baseLines
+        } else {
+            val query = searchQuery.value
+            val scope = searchScope.value
+            
+            // pre-compile lowercase query once for case-insensitive search
+            val queryLower = query.lowercase()
+            
+            baseLines.filter { line ->
+                when(scope) {
+                    "raw" -> line.rawLine.lowercase().contains(queryLower)
+                    "message" -> {
+                        // Optimized: extract message once and reuse
+                        val messageContent = line.groups
+                            .find { it.first == LogMessageGroup.EXCEPTION_MESSAGE || it.first == LogMessageGroup.MESSAGE_TYPE }
+                            ?.second 
+                            ?: extractMessageFromRaw(line.rawLine)
+                        messageContent.lowercase().contains(queryLower)
+                    }
+                    "all" -> {
+                        // Optimized: check raw first, short-circuit if found
+                        if (line.rawLine.lowercase().contains(queryLower)) return@filter true
+                        
+                        // Only check groups if raw didn't match
+                        line.groups.any { (_, groupValue) ->
+                            groupValue.lowercase().contains(queryLower)
+                        }
+                    }
+                    else -> line.rawLine.lowercase().contains(queryLower)
+                }
+            }
+        }
+        
+        filteredLines.addAll(searchResults)
+    }
+    
+    private fun extractMessageFromRaw(rawLine: String): String {
+        // Simple extraction - look for message part after common log patterns
+        val messageStart = rawLine.indexOf("]: ")
+        return if (messageStart != -1) {
+            rawLine.substring(messageStart + 3)
+        } else {
+            rawLine
         }
     }
 
@@ -154,6 +274,21 @@ internal class LogView (
         }.map { (lineCount, value) ->
             val valueTruncated = if(value.length <= 128) value else value.substring(0, 128)
             Pair(value, "$valueTruncated ($lineCount)")
+        }
+    }
+
+    private fun resetAllFilters() {
+        CoroutineScope(Dispatchers.Default).launch {
+            // Reset search
+            searchQuery.value = ""
+            searchScope.value = "all"
+            
+            // Reset attribute filters
+            currentGroup.value = ""
+            currentValue.value = ""
+            
+            // Apply reset (will show all logs)
+            filter("", "")
         }
     }
 }
