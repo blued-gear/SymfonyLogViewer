@@ -3,6 +3,7 @@ package apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.linecomp
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.parser.model.ActivityHandlerLine
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.addCssClasses
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.levelBadge
+import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.statusBadge
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
@@ -54,8 +55,19 @@ internal fun activityHandlerLineView(line: ActivityHandlerLine): Div {
 
             // Empty filler columns for alignment
             div { }
+            
             div { }
-            div { }
+
+            // Status column
+            div {
+                div {
+                    this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
+                    +"Status"
+                }
+                div {
+                    statusBadge(line.httpRespStatus)
+                }
+            }
         }
 
         div {

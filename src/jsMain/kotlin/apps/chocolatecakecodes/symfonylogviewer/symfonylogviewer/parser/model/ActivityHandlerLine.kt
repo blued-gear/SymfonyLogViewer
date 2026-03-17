@@ -17,6 +17,8 @@ internal data class ActivityHandlerLine(
     val context: JsonObject,
 ) : LogLine {
 
+    val httpRespStatus: Int by lazy { extractHttpStatus() }
+
     override val groups: List<Pair<LogMessageGroup, String>>
 
     init {
@@ -27,7 +29,9 @@ internal data class ActivityHandlerLine(
             Pair(LogMessageGroup.CHANNEL, channel),
         )
 
-        extractHttpStatus()?.let { groups.add(Pair(LogMessageGroup.HTTP_RESP_STATUS, it)) }
+        if (httpRespStatus != 0) {
+            groups.add(Pair(LogMessageGroup.HTTP_RESP_STATUS, httpRespStatus.toString()))
+        }
         extractActivityObject()?.let { groups.add(Pair(LogMessageGroup.ACTIVITY_OBJECT, it) )}
         extractExceptionMessage()?.let { groups.add(Pair(LogMessageGroup.EXCEPTION_MESSAGE, it) )}
 
@@ -56,22 +60,22 @@ internal data class ActivityHandlerLine(
         } ?: "<ActivityHandler>"
     }
 
-    private fun extractHttpStatus(): String? {
+    private fun extractHttpStatus(): Int {
         val msgPromoter = "Invalid status code while getting:"
         val msgPromoterIdx = message.indexOf(msgPromoter)
         if(msgPromoterIdx == -1)
-            return null
+            return 0
         val statusPromoter = ", status code: "
         var startIdx = message.indexOf(statusPromoter)
         if(startIdx == -1)
-            return null
+            return 0
         startIdx += statusPromoter.length
         var endIdx = message.indexOf('.', startIdx)
         if(endIdx == -1)
             endIdx = message.indexOf(' ', startIdx)
         if(endIdx == -1)
             endIdx = message.length
-        return message.substring(startIdx, endIdx)
+        return message.substring(startIdx, endIdx).toIntOrNull() ?: 0
     }
 
     private fun extractHttpAddress(): String? {
