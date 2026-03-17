@@ -78,7 +78,8 @@ internal class PaginatedList <T> (
 
                 div().bind(this@PaginatedList.page) {
                     this.addCssClasses("px-3", "py-1", "text-gray-700", "font-medium")
-                    +"${it + 1} / ${this@PaginatedList.pages()}"
+                    val currentPage = if (this@PaginatedList.pages() == 0) 0 else it + 1
+                    +"$currentPage / ${this@PaginatedList.pages()}"
                 }
 
                 button(">") {
@@ -87,7 +88,7 @@ internal class PaginatedList <T> (
                         this@PaginatedList.page.value += 1
                     }
                 }.bind(this@PaginatedList.page) {
-                    this.disabled = it == this@PaginatedList.pages() - 1
+                    this.disabled = it >= this@PaginatedList.pages() - 1 || this@PaginatedList.pages() == 0
                 }
 
                 button(">>") {
@@ -96,7 +97,7 @@ internal class PaginatedList <T> (
                         this@PaginatedList.page.value = this@PaginatedList.pages() - 1
                     }
                 }.bind(this@PaginatedList.page) {
-                    this.disabled = it == this@PaginatedList.pages() - 1
+                    this.disabled = it >= this@PaginatedList.pages() - 1 || this@PaginatedList.pages() == 0
                 }
             }
 
