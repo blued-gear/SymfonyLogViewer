@@ -223,24 +223,30 @@ internal class LogView (
             val query = searchQuery.value
             val scope = searchScope.value
             
+            // pre-compile lowercase query once for case-insensitive search
+            val queryLower = query.lowercase()
+            
             baseLines.filter { line ->
                 when(scope) {
-                    "raw" -> line.rawLine.contains(query, ignoreCase = true)
+                    "raw" -> line.rawLine.lowercase().contains(queryLower)
                     "message" -> {
-                        // Extract message content from groups or raw line
+                        // Optimized: extract message once and reuse
                         val messageContent = line.groups
                             .find { it.first == LogMessageGroup.EXCEPTION_MESSAGE || it.first == LogMessageGroup.MESSAGE_TYPE }
                             ?.second 
                             ?: extractMessageFromRaw(line.rawLine)
-                        messageContent.contains(query, ignoreCase = true)
+                        messageContent.lowercase().contains(queryLower)
                     }
                     "all" -> {
-                        line.rawLine.contains(query, ignoreCase = true) ||
+                        // Optimized: check raw first, short-circuit if found
+                        if (line.rawLine.lowercase().contains(queryLower)) return@filter true
+                        
+                        // Only check groups if raw didn't match
                         line.groups.any { (_, groupValue) ->
-                            groupValue.contains(query, ignoreCase = true)
+                            groupValue.lowercase().contains(queryLower)
                         }
                     }
-                    else -> line.rawLine.contains(query, ignoreCase = true)
+                    else -> line.rawLine.lowercase().contains(queryLower)
                 }
             }
         }

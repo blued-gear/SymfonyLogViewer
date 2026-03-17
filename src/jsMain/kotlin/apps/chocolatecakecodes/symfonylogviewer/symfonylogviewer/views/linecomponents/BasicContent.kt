@@ -15,13 +15,35 @@ import kotlinx.serialization.json.Json
 internal fun highlightText(text: String, query: String): String {
     if (query.isBlank()) return text
     
+    // Use simple case-insensitive replace instead of regex (this is faster)
     return try {
-        val regex = Regex(query, RegexOption.IGNORE_CASE)
-        regex.replace(text) { match ->
-            "<mark class=\"bg-yellow-300 text-black px-1 rounded\">${match.value}</mark>"
+        val queryLower = query.lowercase()
+        val textLower = text.lowercase()
+        var result = StringBuilder()
+        var lastIndex = 0
+        var searchIndex = 0
+        
+        while (searchIndex < text.length) {
+            val foundIndex = textLower.indexOf(queryLower, searchIndex)
+            if (foundIndex == -1) {
+                result.append(text.substring(lastIndex))
+                break
+            }
+            
+            // Add text before match
+            result.append(text.substring(lastIndex, foundIndex))
+            // Add highlighted match
+            result.append("<mark class=\"bg-yellow-300 text-black px-1 rounded\">")
+            result.append(text.substring(foundIndex, foundIndex + query.length))
+            result.append("</mark>")
+            
+            lastIndex = foundIndex + query.length
+            searchIndex = foundIndex + 1
         }
+        
+        result.toString()
     } catch (e: Exception) {
-        // If regex fails, fall back to simple text replacement
+        // Fallback to simple replacement
         text.replace(query, "<mark class=\"bg-yellow-300 text-black px-1 rounded\">$query</mark>", ignoreCase = true)
     }
 }
@@ -43,39 +65,32 @@ internal fun Div.addBasicContent(line: LogLine, searchQuery: String = "", search
             this.addCssClasses("whitespace-pre", "overflow-x-auto", "font-mono", "text-sm", "bg-gray-900", "text-gray-100", "p-3", "rounded-lg", "border", "border-gray-600")
             
             if (searchQuery.isNotBlank()) {
-                // Split text by matches and create spans with highlighting
-                val regex = try {
-                    Regex(searchQuery, RegexOption.IGNORE_CASE)
-                } catch (e: Exception) {
-                    null
-                }
+                // Optimized: use manual string search instead of regex for better performance
+                val queryLower = searchQuery.lowercase()
+                val textLower = text.lowercase()
+                var lastIndex = 0
+                var searchIndex = 0
                 
-                if (regex != null) {
-                    val matches = regex.findAll(text)
-                    var lastIndex = 0
-                    
-                    matches.forEach { match ->
-                        // Add text before match
-                        if (match.range.first > lastIndex) {
-                            +text.substring(lastIndex, match.range.first)
-                        }
-                        
-                        // Add highlighted match
-                        span {
-                            this.addCssClasses("bg-yellow-300", "text-black", "px-1", "rounded")
-                            +match.value
-                        }
-                        
-                        lastIndex = match.range.last + 1
-                    }
-                    
-                    // Add remaining text
-                    if (lastIndex < text.length) {
+                while (searchIndex < text.length) {
+                    val foundIndex = textLower.indexOf(queryLower, searchIndex)
+                    if (foundIndex == -1) {
                         +text.substring(lastIndex)
+                        break
                     }
-                } else {
-                    // Fallback: simple text without highlighting
-                    +text
+                    
+                    // Add text before match
+                    if (foundIndex > lastIndex) {
+                        +text.substring(lastIndex, foundIndex)
+                    }
+                    
+                    // Add highlighted match
+                    span {
+                        this.addCssClasses("bg-yellow-300", "text-black", "px-1", "rounded")
+                        +text.substring(foundIndex, foundIndex + searchQuery.length)
+                    }
+                    
+                    lastIndex = foundIndex + searchQuery.length
+                    searchIndex = foundIndex + 1
                 }
             } else {
                 +text
