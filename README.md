@@ -14,6 +14,10 @@ _TODOs:_
 - **Search**: Search through logs to quickly find relevant entries
 - **Advanced Filtering:** More advanced filter capabilities 
 
+## Screenshot
+
+![Symfony Log Viewer](./symfony-log-viewer.png)
+
 ## Getting started
 
 ### Prerequisites
