@@ -30,9 +30,10 @@ internal class LogView (
     private val filteredLines = ObservableListWrapper<LogLine>(mutableListOf())
 
     init {
-        this.addCssClasses("m-2")
+        this.addCssClasses("max-w-8xl", "mx-auto", "p-4")
 
         div {
+            this.addCssClasses("bg-white", "rounded-lg", "shadow-md", "p-4", "mb-4")
             this@LogView.searchBar(this)
         }
         div {
@@ -52,37 +53,55 @@ internal class LogView (
 
     private fun searchBar(container: Container) {
         container.div().apply {
-            +"Filter attribute: "
-            select {
-                this.addCssClasses("filterSelect")
-
-                this.subscribe {
-                    this@LogView.currentGroup.value = it ?: ""
-                }
-            }.bind(this@LogView.groups) { groups ->
-                this.options = listOf(Pair("", "ALL")) + groups.keys.map { Pair(it.toString(), it.toString()) }.toList()
+            this.addCssClasses("mb-3")
+            div {
+                this.addCssClasses("text-sm", "font-semibold", "text-gray-700", "mb-2")
+                +"🔍 Filter Options"
             }
         }
 
         container.div().apply {
-            +"Attribute value: "
-            select {
-                this.addCssClasses("filterSelect")
-            }.bind(this@LogView.currentGroup) { group ->
-                if(group == "") {
-                    this.options = emptyList()
-                    this@LogView.currentValue.value = ""
-                } else {
-                    this.options = this@LogView.attributeFilterValues(group)
-                    this@LogView.currentValue.value = this.options!!.first().first
+            this.addCssClasses("space-y-4")
+            
+            div {
+                div {
+                    this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                    +"Filter Attribute:"
                 }
-            }.bindTo(this@LogView.currentValue)
+                select {
+                    this.addCssClasses("filterSelect")
+
+                    this.subscribe {
+                        this@LogView.currentGroup.value = it ?: ""
+                    }
+                }.bind(this@LogView.groups) { groups ->
+                    this.options = listOf(Pair("", "ALL")) + groups.keys.map { Pair(it.toString(), it.toString()) }.toList()
+                }
+            }
+
+            div {
+                div {
+                    this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
+                    +"Attribute Value:"
+                }
+                select {
+                    this.addCssClasses("filterSelect")
+                }.bind(this@LogView.currentGroup) { group ->
+                    if(group == "") {
+                        this.options = emptyList()
+                        this@LogView.currentValue.value = ""
+                    } else {
+                        this.options = this@LogView.attributeFilterValues(group)
+                        this@LogView.currentValue.value = this.options!!.first().first
+                    }
+                }.bindTo(this@LogView.currentValue)
+            }
         }
     }
 
     private fun listView(container: Container) {
         container.div {
-            this.addCssClasses("p-4", "border", "border-gray-400", "rounded-lg", "shadow-sm")
+            this.addCssClasses("bg-gray-50", "p-4", "rounded-lg")
             this.paginatedList(this@LogView.filteredLines) { line ->
                 when(line) {
                     is HttpExceptionLine -> httpExceptionLineView(line)
