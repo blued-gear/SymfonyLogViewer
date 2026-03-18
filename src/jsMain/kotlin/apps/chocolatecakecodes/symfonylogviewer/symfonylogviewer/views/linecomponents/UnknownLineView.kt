@@ -6,6 +6,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.levelBadg
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
+import io.kvision.html.icon
 
 internal fun unknownLineView(line: UnknownLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
@@ -23,7 +24,8 @@ internal fun unknownLineView(line: UnknownLine, searchQuery: String = "", search
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"⏰ Time"
+                    icon("fas fa-clock")
+                    +" Time"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900")

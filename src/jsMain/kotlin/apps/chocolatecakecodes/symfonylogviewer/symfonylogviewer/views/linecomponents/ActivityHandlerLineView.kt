@@ -7,6 +7,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.statusBad
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
+import io.kvision.html.icon
 
 internal fun activityHandlerLineView(line: ActivityHandlerLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
@@ -24,7 +25,8 @@ internal fun activityHandlerLineView(line: ActivityHandlerLine, searchQuery: Str
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"⏰ Time"
+                    icon("fas fa-clock")
+                    +" Time"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900")
@@ -45,7 +47,8 @@ internal fun activityHandlerLineView(line: ActivityHandlerLine, searchQuery: Str
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📡 Channel"
+                    icon("fas fa-broadcast-tower")
+                    +" Channel"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-medium")
@@ -73,7 +76,8 @@ internal fun activityHandlerLineView(line: ActivityHandlerLine, searchQuery: Str
         div {
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700", "mb-2")
-                +"📝 Message:"
+                icon("fas fa-edit")
+                +" Message:"
             }
             div {
                 this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-3", "rounded-md", "border", "border-gray-300", "whitespace-pre-wrap", "shadow-sm")

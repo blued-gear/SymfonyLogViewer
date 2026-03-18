@@ -9,6 +9,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.levelBadg
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.prettyJson
 import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.statusBadge
 import io.kvision.html.Div
+import io.kvision.html.icon
 import io.kvision.html.div
 import io.kvision.html.h3
 import kotlinx.serialization.json.Json
@@ -29,7 +30,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"⏰ Time"
+                    icon("fas fa-clock")
+                    +" Time"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900")
@@ -50,7 +52,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📡 Channel"
+                    icon("fas fa-broadcast-tower")
+                    +" Channel"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-medium")
@@ -88,7 +91,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"💥 Exception Class:"
+                icon("fas fa-bomb")
+                +" Exception Class:"
             }
             div {
                 this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-red-50", "p-2", "rounded-md", "border", "border-red-300", "flex", "items-center", "gap-2", "shadow-sm")
@@ -98,7 +102,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"🔗 Address:"
+                icon("fas fa-link")
+                +" Address:"
             }
             div {
                 this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-blue-50", "p-2", "rounded-md", "border", "border-blue-200", "flex", "items-center", "gap-2", "break-all", "shadow-sm")
@@ -109,7 +114,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"📤 Response body:"
+                icon("fas fa-upload")
+                +" Response body:"
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")
@@ -121,7 +127,8 @@ internal fun httpExceptionLineView(line: HttpExceptionLine, searchQuery: String 
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"📥 Request body:"
+                icon("fas fa-download")
+                +" Request body:"
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")
