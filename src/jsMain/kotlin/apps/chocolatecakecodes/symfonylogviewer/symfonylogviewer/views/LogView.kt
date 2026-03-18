@@ -11,6 +11,7 @@ import io.kvision.form.text.text
 import io.kvision.html.button
 import io.kvision.html.Div
 import io.kvision.html.div
+import io.kvision.html.icon
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
@@ -82,9 +83,12 @@ internal class LogView (
                 this.addCssClasses("flex", "justify-between", "items-center", "mb-2")
                 div {
                     this.addCssClasses("text-sm", "font-semibold", "text-gray-700")
-                    +"🔍 Filter Options"
+                    icon("fas fa-filter")
+                    +" Filter Options"
                 }
-                button("Reset All") {
+                button("") {
+                    icon("fas fa-redo")
+                    +" Reset All"
                     this.addCssClasses("text-xs", "px-3", "py-1", "bg-gray-500", "text-white", "border", "border-gray-500", "rounded", "hover:bg-gray-600", "focus:outline-none", "focus:ring-2", "focus:ring-gray-400")
                     this.onClick {
                         this@LogView.resetAllFilters()

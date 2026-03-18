@@ -8,6 +8,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.retriesBa
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
+import io.kvision.html.icon
 
 internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
@@ -25,7 +26,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"⏰ Time"
+                    icon("fas fa-clock")
+                    +" Time"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900")
@@ -46,7 +48,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📡 Channel"
+                    icon("fas fa-broadcast-tower")
+                    +" Channel"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-medium")
@@ -57,10 +60,11 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📨 Message Type"
+                    icon("fas fa-envelope")
+                    +" Message Type"
                 }
                 div {
-                    this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-medium")
+                    this.addCssClasses("inline-block", "px-2", "py-1", "rounded", "text-xs", "font-bold", "bg-gray-100", "text-gray-800")
                     +line.messageType
                 }
             }
@@ -68,7 +72,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"🆔 Message ID"
+                    icon("fas fa-hashtag")
+                    +" Message ID"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-mono")
@@ -79,7 +84,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"🔄 Retries"
+                    icon("fas fa-redo")
+                    +" Retries"
                 }
                 div {
                     retriesBadge(line.retryCount)
@@ -92,7 +98,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"💥 Exception Class:"
+                icon("fas fa-bomb")
+                +" Exception Class:"
             }
             div {
                 this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-red-50", "p-2", "rounded-md", "border", "border-red-300", "flex", "items-center", "gap-2", "shadow-sm")
@@ -102,7 +109,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"📄 Failed File:"
+                icon("fas fa-file-alt")
+                +" Failed File:"
             }
             div {
                 this.addCssClasses("col-span-7", "font-mono", "text-sm", "bg-gray-50", "p-2", "rounded-md", "border", "border-gray-300", "flex", "items-center", "gap-2", "break-all", "shadow-sm")
@@ -112,7 +120,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"📝 Message:"
+                icon("fas fa-edit")
+                +" Message:"
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")
@@ -124,7 +133,8 @@ internal fun messangerExceptionLineView(line: MessangerExceptionLine, searchQuer
 
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700")
-                +"❗ Exception Message:"
+                icon("fas fa-exclamation-triangle")
+                +" Exception Message:"
             }
             div {
                 this.addCssClasses("col-span-7", "overflow-x-auto", "pb-3")

@@ -5,10 +5,14 @@ import io.kvision.core.Container
 import io.kvision.core.onClickLaunch
 import io.kvision.html.Button
 import io.kvision.html.button
+import io.kvision.html.icon
 import kotlin.js.js
 
 internal fun Container.externalLinkButton(url: String, compact: Boolean = false): Button {
-    return button(if (compact) "🔗" else "Open") {
+    return button(if (compact) "" else "Open") {
+        if (compact) {
+            icon("fas fa-external-link-alt")
+        }
         this.addCssClasses(if (compact) "copy-compact" else "boxedBtn")
         this.onClickLaunch {
             it.stopPropagation()

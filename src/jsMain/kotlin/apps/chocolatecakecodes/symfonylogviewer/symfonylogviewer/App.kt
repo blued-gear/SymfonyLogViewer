@@ -8,6 +8,7 @@ import io.kvision.html.div
 import io.kvision.panel.root
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
+import io.kvision.FontAwesomeModule
 
 class App : Application() {
 
@@ -36,6 +37,7 @@ fun main() {
         js("import.meta.webpackHot").unsafeCast<Hot?>(),
         DatetimeModule,
         TailwindcssModule,
+        FontAwesomeModule,
         CoreModule
     )
 }

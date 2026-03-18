@@ -6,6 +6,7 @@ import apps.chocolatecakecodes.symfonylogviewer.symfonylogviewer.views.levelBadg
 import io.kvision.html.Div
 import io.kvision.html.div
 import io.kvision.html.h3
+import io.kvision.html.icon
 
 internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuery: String = "", searchScope: String = "raw"): Div {
     return Div {
@@ -23,7 +24,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"⏰ Time"
+                    icon("fas fa-clock")
+                    +" Time"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900")
@@ -44,7 +46,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📡 Channel"
+                    icon("fas fa-broadcast-tower")
+                    +" Channel"
                 }
                 div {
                     this.addCssClasses("truncate", "text-sm", "text-gray-900", "font-medium")
@@ -61,7 +64,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
         div {
             div {
                 this.addCssClasses("font-semibold", "text-sm", "text-gray-700", "mb-2")
-                +"📝 Message:"
+                icon("fas fa-edit")
+                +" Message:"
             }
             div {
                 this.addCssClasses("font-mono", "text-sm", "bg-gray-50", "p-3", "rounded-md", "border", "border-gray-300", "whitespace-pre-wrap", "shadow-sm")
@@ -75,7 +79,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"🆔 Activity ID"
+                    icon("fas fa-hashtag")
+                    +" Activity ID"
                 }
                 div {
                     this.addCssClasses("font-mono", "text-sm", "bg-blue-50", "p-2", "rounded-md", "border", "border-blue-200", "break-all", "shadow-sm")
@@ -86,7 +91,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"📋 Activity Type"
+                    icon("fas fa-clipboard-list")
+                    +" Activity Type"
                 }
                 div {
                     this.addCssClasses("font-mono", "text-sm", "bg-purple-50", "p-2", "rounded-md", "border", "border-purple-200", "break-all", "shadow-sm")
@@ -97,7 +103,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"🎯 Object"
+                    icon("fas fa-bullseye")
+                    +" Object"
                 }
                 div {
                     this.addCssClasses("font-mono", "text-sm", "bg-green-50", "p-2", "rounded-md", "border", "border-green-200", "break-all", "shadow-sm")
@@ -108,7 +115,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"👤 Actor"
+                    icon("fas fa-user")
+                    +" Actor"
                 }
                 div {
                     this.addCssClasses("font-mono", "text-sm", "bg-yellow-50", "p-2", "rounded-md", "border", "border-yellow-200", "break-all", "shadow-sm")
@@ -119,7 +127,8 @@ internal fun activityPubManagerLineView(line: ActivityPubManagerLine, searchQuer
             div {
                 div {
                     this.addCssClasses("font-semibold", "text-xs", "text-gray-500", "uppercase", "tracking-wide", "mb-1")
-                    +"👥 Audience"
+                    icon("fas fa-users")
+                    +" Audience"
                 }
                 div {
                     this.addCssClasses("font-mono", "text-sm", "bg-pink-50", "p-2", "rounded-md", "border", "border-pink-200", "break-all", "shadow-sm")
