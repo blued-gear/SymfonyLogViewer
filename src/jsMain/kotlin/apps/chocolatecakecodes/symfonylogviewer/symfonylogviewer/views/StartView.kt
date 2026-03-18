@@ -22,18 +22,23 @@ internal class StartView(
             this.addCssClasses("m-6", "flex", "flex-col", "gap-2")
 
             div {
-                + "Select a logfile"
+                this.addCssClasses("ai-rainbow-text", "text-4xl", "text-center", "mb-8", "ai-float")
+                + "🌈 AI Rainbow Log Viewer 🤖✨"
+            }
+            div {
+                this.addCssClasses("neon-text", "text-xl", "text-center", "mb-6")
+                + "Select a logfile to begin your magical journey"
             }
             input {
                 this.type = InputType.FILE
-                this.addCssClasses("block", "w-full", "text-base", "text-gray-900", "border", "border-gray-300", "rounded-lg", "cursor-pointer", "bg-gray-50", "py-2", "px-4", "dark:text-gray-400", "focus:outline-none", "dark:border-gray-600", "dark:focus:border-blue-500", "dark:bg-gray-700")
+                this.addCssClasses("ai-rainbow-btn", "block", "w-full", "text-base", "rounded-lg", "cursor-pointer", "py-4", "px-6", "text-lg", "ai-glow")
                 this.onChange {
                     this@StartView.onFileSelected(it.target.asDynamic().files[0] as File)
                 }
             }
 
             this@StartView.msg = div {
-                this.addCssClasses("color-red-600")
+                this.addCssClasses("text-white", "text-center", "mt-4", "font-bold", "ai-rainbow-text")
             }
         }
     }

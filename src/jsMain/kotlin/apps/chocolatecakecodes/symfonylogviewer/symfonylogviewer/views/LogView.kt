@@ -41,7 +41,7 @@ internal class LogView (
         this.addCssClasses("max-w-8xl", "mx-auto", "p-4")
 
         div {
-            this.addCssClasses("bg-white", "rounded-lg", "shadow-md", "p-4", "mb-4")
+            this.addCssClasses("ai-rainbow-card", "p-4", "mb-4")
             this@LogView.searchBar(this)
         }
         div {
@@ -82,14 +82,14 @@ internal class LogView (
             div {
                 this.addCssClasses("flex", "justify-between", "items-center", "mb-2")
                 div {
-                    this.addCssClasses("text-sm", "font-semibold", "text-gray-700")
+                    this.addCssClasses("text-sm", "font-bold", "ai-rainbow-text")
                     icon("fas fa-filter")
-                    +" Filter Options"
+                    +" 🤖 AI Filter Options"
                 }
                 button("") {
                     icon("fas fa-redo")
                     +" Reset All"
-                    this.addCssClasses("text-xs", "px-3", "py-1", "bg-gray-500", "text-white", "border", "border-gray-500", "rounded", "hover:bg-gray-600", "focus:outline-none", "focus:ring-2", "focus:ring-gray-400")
+                    this.addCssClasses("text-xs", "px-3", "py-1", "ai-rainbow-btn", "rounded", "ai-glow")
                     this.onClick {
                         this@LogView.resetAllFilters()
                     }
@@ -106,11 +106,11 @@ internal class LogView (
                 
                 div {
                     div {
-                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                        +"Filter Attribute:"
+                        this.addCssClasses("text-xs", "font-bold", "ai-rainbow-text", "uppercase", "tracking-wide", "mb-2")
+                        +"🔮 Filter Attribute:"
                     }
                     select {
-                        this.addCssClasses("filterSelect")
+                        this.addCssClasses("ai-rainbow-btn", "filterSelect")
 
                         this.subscribe {
                             this@LogView.currentGroup.value = it ?: ""
@@ -122,11 +122,11 @@ internal class LogView (
 
                 div {
                     div {
-                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                        +"Attribute Value:"
+                        this.addCssClasses("text-xs", "font-bold", "ai-rainbow-text", "uppercase", "tracking-wide", "mb-2")
+                        +"💎 Attribute Value:"
                     }
                     select {
-                        this.addCssClasses("filterSelect")
+                        this.addCssClasses("ai-rainbow-btn", "filterSelect")
                     }.bind(this@LogView.currentGroup) { group ->
                         if(group == "") {
                             this.options = emptyList()
@@ -145,12 +145,12 @@ internal class LogView (
                 
                 div {
                     div {
-                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                        +"Text Search:"
+                        this.addCssClasses("text-xs", "font-bold", "ai-rainbow-text", "uppercase", "tracking-wide", "mb-2")
+                        +"🔍 Text Search:"
                     }
                     text {
-                        this.addCssClasses("filterSelect", "mb-2")
-                        this.placeholder = "Search in logs..."
+                        this.addCssClasses("ai-rainbow-btn", "filterSelect", "mb-2")
+                        this.placeholder = "🔍 Search in logs..."
                         this.subscribe { query ->
                             this@LogView.searchQuery.value = query ?: ""
                         }
@@ -159,11 +159,11 @@ internal class LogView (
                 
                 div {
                     div {
-                        this.addCssClasses("text-xs", "font-semibold", "text-gray-600", "uppercase", "tracking-wide", "mb-2")
-                        +"Search Scope:"
+                        this.addCssClasses("text-xs", "font-bold", "ai-rainbow-text", "uppercase", "tracking-wide", "mb-2")
+                        +"🌐 Search Scope:"
                     }
                     select {
-                        this.addCssClasses("filterSelect")
+                        this.addCssClasses("ai-rainbow-btn", "filterSelect")
                         this.subscribe { scope ->
                             this@LogView.searchScope.value = scope ?: "all"
                         }

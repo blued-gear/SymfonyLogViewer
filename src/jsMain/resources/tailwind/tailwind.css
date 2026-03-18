@@ -5,6 +5,131 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @source inline("bg-neutral-500 text-white font-bold inline-block rounded-full");
 
+/* AI Rainbow Theme - CRAZY MODE! */
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-20px) rotate(1deg); }
+  75% { transform: translateY(10px) rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5); }
+}
+
+@keyframes text-rainbow {
+  0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+  16.66% { color: #ff8800; text-shadow: 0 0 10px #ff8800; }
+  33.33% { color: #ffff00; text-shadow: 0 0 10px #ffff00; }
+  50% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+  66.66% { color: #0088ff; text-shadow: 0 0 10px #0088ff; }
+  83.33% { color: #8800ff; text-shadow: 0 0 10px #8800ff; }
+  100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+}
+
+@keyframes particle-float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+body {
+  background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b, #fb5607, #ff006e);
+  background-size: 400% 400%;
+  animation: rainbow 15s ease infinite;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.ai-rainbow-bg {
+  background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b, #fb5607, #ff006e);
+  background-size: 400% 400%;
+  animation: rainbow 10s ease infinite;
+}
+
+.ai-rainbow-text {
+  animation: text-rainbow 3s linear infinite;
+  font-weight: bold;
+}
+
+.ai-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.ai-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.ai-particle {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.7;
+  animation: particle-float linear infinite;
+}
+
+/* Crazy rainbow buttons */
+.ai-rainbow-btn {
+  background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+  background-size: 300% 300%;
+  animation: rainbow 3s ease infinite;
+  border: 2px solid #fff;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  transition: all 0.3s ease;
+}
+
+.ai-rainbow-btn:hover {
+  transform: scale(1.1) rotate(2deg);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+/* Rainbow cards */
+.ai-rainbow-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(255, 0, 255, 0.3);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Cyberpunk grid overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Neon text effects */
+.neon-text {
+  color: #fff;
+  text-shadow: 
+    0 0 10px #ff006e,
+    0 0 20px #ff006e,
+    0 0 30px #ff006e,
+    0 0 40px #8338ec,
+    0 0 70px #8338ec,
+    0 0 80px #8338ec,
+    0 0 100px #8338ec;
+}
+
 @theme {
   --font-sans: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-body: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

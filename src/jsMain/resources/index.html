@@ -3,10 +3,94 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mbin Messanger Logs</title>
+    <title>🌈 AI Rainbow Symfony Log Viewer 🤖✨</title>
     <script type="text/javascript" src="main.bundle.js"></script>
 </head>
 <body class="bg-brand-100 dark:text-white">
 <div id="kvapp"></div>
+
+<!-- AI Particle System -->
+<script>
+  // Create floating rainbow particles
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'ai-particle';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+    
+    const symbols = ['🌈', '✨', '🤖', '💫', '⚡', '🔮', '🎆', '🌟', '💠', '🔯'];
+    particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    
+    document.body.appendChild(particle);
+    
+    setTimeout(() => {
+      particle.remove();
+    }, 20000);
+  }
+  
+  // Create particles periodically
+  setInterval(createParticle, 2000);
+  
+  // Initial burst of particles
+  for(let i = 0; i < 10; i++) {
+    setTimeout(createParticle, i * 200);
+  }
+</script>
+
+<style>
+  /* Additional AI effects */
+  .ai-glitch {
+    position: relative;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+      0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    animation: glitch 500ms infinite;
+  }
+  
+  @keyframes glitch {
+    0%, 100% {
+      text-shadow: 
+        0.05em 0 0 rgba(255, 0, 0, 0.75),
+        -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+        0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    14% {
+      text-shadow: 
+        0.05em 0 0 rgba(255, 0, 0, 0.75),
+        -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+        0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    15% {
+      text-shadow: 
+        -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+        0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+        -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    49% {
+      text-shadow: 
+        -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+        0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+        -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    50% {
+      text-shadow: 
+        0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+        0.05em 0 0 rgba(0, 255, 0, 0.75),
+        0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    99% {
+      text-shadow: 
+        0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+        0.05em 0 0 rgba(0, 255, 0, 0.75),
+        0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+  }
+</style>
 </body>
 </html>
